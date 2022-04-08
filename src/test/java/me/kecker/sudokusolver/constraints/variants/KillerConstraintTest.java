@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static me.kecker.sudokusolver.utils.SudokuCollectionUtils.startingAtOne;
 import static org.junit.jupiter.api.Assertions.*;
 
 class KillerConstraintTest {
@@ -20,11 +21,11 @@ class KillerConstraintTest {
     @Test
     void testKillerSudoku() {
 
-        var killer23 = new KillerConstraint(List.of(
+        var killer23 = new KillerConstraint(startingAtOne(List.of(
                 new Position(3, 7),
                 new Position(4, 7),
                 new Position(4, 6)
-        ), 23);
+        )), 23);
         SudokuSolveSolution solve = SudokuSolver.normalSudokuRulesApply()
                 .withConstraint(KillerConstraint.rectangularCage(new Rect(1, 1, 1, 2), 14))
                 .withConstraint(KillerConstraint.rectangularCage(new Rect(1, 3, 1, 4), 14))
@@ -45,6 +46,10 @@ class KillerConstraintTest {
 
         assertEquals(6, solve.value(1, 1));
         assertEquals(8, solve.value(2, 1));
+        assertEquals(8, solve.value(3, 7));
+        assertEquals(6, solve.value(4, 7));
+        assertEquals(9, solve.value(4, 6));
+
         solve.printBoard();
 
     }

@@ -34,10 +34,10 @@ class SudokuSolverTest {
         SudokuSolveSolution solve = sudokuSolver.solve();
 
         assertEquals(CpSolverStatus.OPTIMAL, solve.getStatus());
-
         assertEquals(8, solve.value(2, 2));
         assertEquals(6, solve.value(2, 3));
 
+        solve.printBoard();
 
     }
 }
