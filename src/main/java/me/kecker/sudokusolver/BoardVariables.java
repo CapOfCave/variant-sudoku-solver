@@ -1,6 +1,7 @@
 package me.kecker.sudokusolver;
 
 import com.google.ortools.sat.IntVar;
+import me.kecker.sudokusolver.utils.Position;
 
 public class BoardVariables {
 
@@ -56,6 +57,10 @@ public class BoardVariables {
 
     public IntVar get(int rowIdx, int columnIdx) {
         return variables[rowIdx][columnIdx];
+    }
+
+    public IntVar get(Position position) {
+        return get(position.rowIdx(), position.columnIdx());
     }
 
     public Board getBoard() {

@@ -7,6 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SudokuSolverTest {
 
+    /**
+     * Sudoku taken from <a href="https://www.researchgate.net/figure/A-Sudoku-with-17-clues-and-its-unique-solution_fig1_311250094">here</a>
+     */
     @Test
     void testNormalSudokuRules() {
         SudokuSolver sudokuSolver = SudokuSolver.normalSudokuRulesApply()
