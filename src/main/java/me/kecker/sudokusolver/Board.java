@@ -39,16 +39,28 @@ public class Board {
     }
 
     public IntVar[][] createVariables(CpModel model) {
-        int rowCount = boxSizeY * boxCountY;
-        int columnCount = boxSizeX * boxCountX;
-        IntVar[][] fields = new IntVar[rowCount][columnCount];
+        int rowCount = this.getRowCount();
+        int columnCount = this.getColumnCount();
 
-        // define variables
+        IntVar[][] fields = new IntVar[rowCount][columnCount];
         for (int rowIdx = 0; rowIdx < rowCount; rowIdx++) {
             for (int columnIdx = 0; columnIdx < columnCount; columnIdx++) {
-                fields[rowIdx][columnIdx] = model.newIntVar(minValue, maxValue, String.format("r%dc%d", rowIdx + 1, columnIdx + 1));
+                String name = getNameByPosition(rowIdx, columnIdx);
+                fields[rowIdx][columnIdx] = model.newIntVar(minValue, maxValue, name);
             }
         }
         return fields;
+    }
+
+    public int getRowCount() {
+        return boxSizeY * boxCountY;
+    }
+
+    public int getColumnCount() {
+        return boxSizeX * boxCountX;
+    }
+
+    private String getNameByPosition(int rowIdx, int columnIdx) {
+        return String.format("r%dc%d", rowIdx + 1, columnIdx + 1);
     }
 }

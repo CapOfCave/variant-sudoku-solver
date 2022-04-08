@@ -25,18 +25,21 @@ public class BoardTest {
     }
 
     @Test
-    public void testNByNOfSizeNotSquareThrowsException() {
+    void testNByNOfSizeNotSquareThrowsException() {
         assertThrows(InvalidBoardException.class, () -> Board.nByNOfSize(6));
     }
 
     @Test
-    public void testNByNOfSizeSquareDoesNotThrow() {
+    void testNByNOfSizeSquareDoesNotThrow() {
         assertDoesNotThrow(() -> Board.nByNOfSize(9));
     }
 
     @Test
-    public void test9By9CreatesCorrectVariables() {
+    void test9By9CreatesCorrectVariables() {
         Board board = Board.nByNOfSize(9);
+        assertEquals(9, board.getRowCount());
+        assertEquals(9, board.getColumnCount());
+
         CpModel model = new CpModel();
         IntVar[][] variables = board.createVariables(model);
         assertThat(variables).hasDimensions(9, 9);
@@ -46,9 +49,11 @@ public class BoardTest {
     }
 
     @Test
-    public void testNotSquareCreatesCorrectVariables() {
+    void testNotSquareCreatesCorrectVariables() {
 
         Board board = new Board(2, 3, 5, 4, 1, 9);
+        assertEquals(12, board.getRowCount());
+        assertEquals(10, board.getColumnCount());
         CpModel model = new CpModel();
         IntVar[][] variables = board.createVariables(model);
         assertThat(variables).hasDimensions(12, 10);
