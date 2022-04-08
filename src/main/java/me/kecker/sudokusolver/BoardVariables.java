@@ -27,7 +27,7 @@ public class BoardVariables {
     public IntVar[] getColumn(int columnIdx) {
         IntVar[] columnFields = new IntVar[this.getRowCount()];
         for (int rowIdx = 0; rowIdx < this.getRowCount(); rowIdx++) {
-            columnFields[rowIdx] = variables[rowIdx][columnIdx];
+            columnFields[rowIdx] = get(rowIdx, columnIdx);
         }
         return columnFields;
     }
@@ -44,7 +44,7 @@ public class BoardVariables {
             int rowIdx = dy + boxRowIdx * board.getBoxSizeY();
             for (int dx = 0; dx < board.getBoxSizeX(); dx++) {
                 int columnIdx = dx + boxColumnIdx * board.getBoxSizeX();
-                boxFields[dy * board.getBoxSizeX() + dx] = variables[rowIdx][columnIdx];
+                boxFields[dy * board.getBoxSizeX() + dx] = get(rowIdx, columnIdx);
             }
         }
         return boxFields;
@@ -52,5 +52,13 @@ public class BoardVariables {
 
     public int getBoxCount() {
         return board.getBoxCount();
+    }
+
+    public IntVar get(int rowIdx, int columnIdx) {
+        return variables[rowIdx][columnIdx];
+    }
+
+    public Board getBoard() {
+        return board;
     }
 }

@@ -41,8 +41,9 @@ public class BoardTest {
         assertEquals(9, board.getColumnCount());
 
         CpModel model = new CpModel();
-        IntVar[][] variables = board.createVariables(model);
-        assertThat(variables).hasDimensions(9, 9);
+        BoardVariables variables = board.createVariables(model);
+        assertThat(variables.getColumnCount()).isEqualTo(9);
+        assertThat(variables.getRowCount()).isEqualTo(9);
         assertEquals(81, model.model().getVariablesCount());
         assertThat(model.model().getVariablesList())
                 .allSatisfy(variable -> assertThat(variable.getName()).matches(Pattern.compile("r[1-9]c[1-9]")));
@@ -55,8 +56,10 @@ public class BoardTest {
         assertEquals(12, board.getRowCount());
         assertEquals(10, board.getColumnCount());
         CpModel model = new CpModel();
-        IntVar[][] variables = board.createVariables(model);
-        assertThat(variables).hasDimensions(12, 10);
+        BoardVariables variables = board.createVariables(model);
+        assertThat(variables.getColumnCount()).isEqualTo(10);
+        assertThat(variables.getRowCount()).isEqualTo(12);
+
         assertEquals(120, model.model().getVariablesCount());
         assertThat(model.model().getVariablesList())
                 .map(IntegerVariableProto::getName)

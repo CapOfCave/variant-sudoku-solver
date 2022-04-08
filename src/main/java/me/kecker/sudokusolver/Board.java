@@ -33,7 +33,7 @@ public class Board {
         return new Board(sizeSquared, sizeSquared, sizeSquared, sizeSquared, 1, size);
     }
 
-    public IntVar[][] createVariables(CpModel model) {
+    public BoardVariables createVariables(CpModel model) {
         int rowCount = this.getRowCount();
         int columnCount = this.getColumnCount();
 
@@ -44,7 +44,7 @@ public class Board {
                 fields[rowIdx][columnIdx] = model.newIntVar(minValue, maxValue, name);
             }
         }
-        return fields;
+        return new BoardVariables(this, fields);
     }
 
     public int getBoxSizeX() {
@@ -73,10 +73,6 @@ public class Board {
 
     public int getColumnCount() {
         return boxSizeX * boxCountX;
-    }
-
-    public int getBoxSize() {
-        return boxSizeX * boxSizeY;
     }
 
     public int getBoxCount() {
