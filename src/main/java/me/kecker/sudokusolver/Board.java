@@ -47,6 +47,26 @@ public class Board {
         return fields;
     }
 
+    public int getBoxSizeX() {
+        return boxSizeX;
+    }
+
+    public int getBoxSizeY() {
+        return boxSizeY;
+    }
+
+    public int getBoxCountX() {
+        return boxCountX;
+    }
+
+    public int getBoxCountY() {
+        return boxCountY;
+    }
+
+    private String getNameByPosition(int rowIdx, int columnIdx) {
+        return String.format("r%dc%d", rowIdx + 1, columnIdx + 1);
+    }
+
     public int getRowCount() {
         return boxSizeY * boxCountY;
     }
@@ -55,7 +75,11 @@ public class Board {
         return boxSizeX * boxCountX;
     }
 
-    private String getNameByPosition(int rowIdx, int columnIdx) {
-        return String.format("r%dc%d", rowIdx + 1, columnIdx + 1);
+    public int getBoxSize() {
+        return boxSizeX * boxSizeY;
+    }
+
+    public int getBoxCount() {
+        return boxCountX * boxCountY;
     }
 }
