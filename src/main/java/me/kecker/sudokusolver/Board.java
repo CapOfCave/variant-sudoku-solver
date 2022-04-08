@@ -3,6 +3,7 @@ package me.kecker.sudokusolver;
 import com.google.ortools.sat.CpModel;
 import com.google.ortools.sat.IntVar;
 import me.kecker.sudokusolver.exceptions.InvalidBoardException;
+import me.kecker.sudokusolver.utils.SudokuSolverUtils;
 
 public class Board {
 
@@ -24,18 +25,12 @@ public class Board {
     }
 
     public static Board nByNOfSize(int size) {
-        if (!isSquare(size)) {
+        if (!SudokuSolverUtils.isSquare(size)) {
             throw new InvalidBoardException("Input must be a perfect square");
         }
         int sizeSquared = (int) Math.sqrt(size);
 
         return new Board(sizeSquared, sizeSquared, sizeSquared, sizeSquared, 1, size);
-    }
-
-
-    private static boolean isSquare(int value) {
-        int squared = (int) Math.sqrt(value);
-        return value == squared * squared;
     }
 
     public IntVar[][] createVariables(CpModel model) {
