@@ -12,6 +12,7 @@ import me.kecker.sudokusolver.constraints.normal.RowsUniqueConstraint;
 import me.kecker.sudokusolver.utils.SudokuSolverUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -30,6 +31,10 @@ public class SudokuSolver {
                 .withConstraint(new RowsUniqueConstraint())
                 .withConstraint(new ColumnsUniqueConstraint())
                 .withConstraint(new BoxesUniqueConstraint());
+    }
+
+    public static SudokuSolver fromBoard(Board board) {
+        return new SudokuSolver(board);
     }
 
     public SudokuSolver withConstraint(SudokuConstraint constraint) {
@@ -52,8 +57,15 @@ public class SudokuSolver {
         BoardVariables variables = this.board.createVariables(model);
         this.constraints.forEach(constraints -> constraints.apply(model, variables));
 
+
         CpSolver solver = new CpSolver();
-        CpSolverStatus status = solver.solve(model);
+
+        var variablesToShow = new ArrayList<>(DebugVarsHelper.get());
+        variablesToShow.addAll(Arrays.asList(variables.getAll()));
+
+        SolutionPrinter cb = new SolutionPrinter(variablesToShow);
+        solver.getParameters().setEnumerateAllSolutions(true);
+        CpSolverStatus status = solver.solve(model, cb);
 
         return new SudokuSolveSolution(variables, solver, status);
     }

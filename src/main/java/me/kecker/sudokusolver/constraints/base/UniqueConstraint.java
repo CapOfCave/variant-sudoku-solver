@@ -4,15 +4,15 @@ import com.google.ortools.sat.CpModel;
 import com.google.ortools.sat.IntVar;
 import me.kecker.sudokusolver.BoardVariables;
 import me.kecker.sudokusolver.SudokuConstraint;
-import me.kecker.sudokusolver.utils.Position;
+import me.kecker.sudokusolver.utils.SudokuPosition;
 
 import java.util.Collection;
 
 public class UniqueConstraint implements SudokuConstraint {
 
-    private final Collection<Position> affectedCells;
+    private final Collection<SudokuPosition> affectedCells;
 
-    public UniqueConstraint(Collection<Position> affectedCells) {
+    public UniqueConstraint(Collection<SudokuPosition> affectedCells) {
         this.affectedCells = affectedCells;
     }
 

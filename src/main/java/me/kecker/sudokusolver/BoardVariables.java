@@ -1,7 +1,10 @@
 package me.kecker.sudokusolver;
 
 import com.google.ortools.sat.IntVar;
-import me.kecker.sudokusolver.utils.Position;
+import me.kecker.sudokusolver.utils.HelperVarManager;
+import me.kecker.sudokusolver.utils.SudokuPosition;
+
+import java.util.Arrays;
 
 public class BoardVariables {
 
@@ -59,11 +62,27 @@ public class BoardVariables {
         return variables[rowIdx][columnIdx];
     }
 
-    public IntVar get(Position position) {
+    public IntVar get(SudokuPosition position) {
         return get(position.rowIdx(), position.columnIdx());
     }
 
     public Board getBoard() {
         return board;
+    }
+
+    public String generateUniqueHelperVarName(String prefix) {
+        return HelperVarManager.generateUniqueHelperVarName(prefix);
+    }
+
+    public int getMinValue() {
+        return board.getMinValue();
+    }
+
+    public int getMaxValue() {
+        return board.getMaxValue();
+    }
+
+    public IntVar[] getAll() {
+        return Arrays.stream(variables).flatMap(Arrays::stream).toArray(IntVar[]::new);
     }
 }

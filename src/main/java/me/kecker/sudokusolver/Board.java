@@ -37,6 +37,7 @@ public class Board {
         int rowCount = this.getRowCount();
         int columnCount = this.getColumnCount();
 
+
         IntVar[][] fields = new IntVar[rowCount][columnCount];
         for (int rowIdx = 0; rowIdx < rowCount; rowIdx++) {
             for (int columnIdx = 0; columnIdx < columnCount; columnIdx++) {
@@ -63,10 +64,6 @@ public class Board {
         return boxCountY;
     }
 
-    private String getNameByPosition(int rowIdx, int columnIdx) {
-        return String.format("r%dc%d", rowIdx + 1, columnIdx + 1);
-    }
-
     public int getRowCount() {
         return boxSizeY * boxCountY;
     }
@@ -78,4 +75,17 @@ public class Board {
     public int getBoxCount() {
         return boxCountX * boxCountY;
     }
+
+    public int getMinValue() {
+        return minValue;
+    }
+
+    public int getMaxValue() {
+        return maxValue;
+    }
+
+    private String getNameByPosition(int rowIdx, int columnIdx) {
+        return String.format("r%dc%d", rowIdx + 1, columnIdx + 1);
+    }
+
 }

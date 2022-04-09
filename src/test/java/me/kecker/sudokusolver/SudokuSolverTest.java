@@ -38,6 +38,6 @@ class SudokuSolverTest {
         assertEquals(6, solve.value(2, 3));
 
         solve.printBoard();
-
+        System.out.println(solve.getSolver().responseStats());
     }
 }

@@ -29,4 +29,8 @@ public class SudokuSolveSolution {
         int columnIdx = columnIdxStartingAtOne - 1;
         return (int) solver.value(variables.get(rowIdx, columnIdx));
     }
+
+    public CpSolver getSolver() {
+        return solver;
+    }
 }
