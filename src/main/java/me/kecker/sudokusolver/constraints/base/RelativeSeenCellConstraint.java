@@ -27,8 +27,6 @@ public class RelativeSeenCellConstraint implements SudokuConstraint {
 
     public void applyToCell(CpModel model, BoardVariables boardVariables, int rowIdx, int columnIdx) {
         IntVar selectedCell = boardVariables.get(rowIdx, columnIdx);
-        if (rowIdx == 0 && columnIdx == 0)
-            System.out.println(offsets);
         for (Offset offset : offsets) {
             int rowIdxOther = rowIdx + offset.rowDif();
             int columnIdxOther = columnIdx + offset.columnDif();
