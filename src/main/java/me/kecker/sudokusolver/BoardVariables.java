@@ -4,8 +4,6 @@ import com.google.ortools.sat.IntVar;
 import me.kecker.sudokusolver.utils.HelperVarManager;
 import me.kecker.sudokusolver.utils.SudokuPosition;
 
-import java.util.Arrays;
-
 public class BoardVariables {
 
     private final Board board;
@@ -37,7 +35,7 @@ public class BoardVariables {
     }
 
     public IntVar[] getBox(int boxIdx) {
-        return this.getBox(boxIdx / 3, boxIdx % 3);
+        return this.getBox(boxIdx / board.getBoxCountX(), boxIdx % board.getBoxCountX());
     }
 
     public IntVar[] getBox(int boxRowIdx, int boxColumnIdx) {
