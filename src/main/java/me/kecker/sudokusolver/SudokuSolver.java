@@ -32,9 +32,7 @@ public class SudokuSolver {
 
     public static SudokuSolver normalSudokuRulesApply() {
         return new SudokuSolver(Board.nByNOfSize(9))
-                .withConstraint(new RowsUniqueConstraint())
-                .withConstraint(new ColumnsUniqueConstraint())
-                .withConstraint(new BoxesUniqueConstraint());
+                .withNormalSudokuRulesConstraints();
     }
 
     public static SudokuSolver fromBoard(Board board) {
@@ -49,6 +47,12 @@ public class SudokuSolver {
     public SudokuSolver withConstraint(SudokuConstraint constraint) {
         this.constraints.add(constraint);
         return this;
+    }
+
+    public SudokuSolver withNormalSudokuRulesConstraints() {
+        return this.withConstraint(new RowsUniqueConstraint())
+                .withConstraint(new ColumnsUniqueConstraint())
+                .withConstraint(new BoxesUniqueConstraint());
     }
 
     public SudokuSolver withGivenDigit(int rowIdxStartingAtOne, int columnIdxStartingAtOne, int value) {
@@ -166,5 +170,6 @@ public class SudokuSolver {
         consumer.accept(this);
         return this;
     }
+
 
 }
