@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class SudokuSolver {
 
@@ -111,5 +112,9 @@ public class SudokuSolver {
 
     }
 
+    public SudokuSolver peek(Consumer<SudokuSolver> consumer) {
+        consumer.accept(this);
+        return this;
+    }
 
 }

@@ -124,7 +124,7 @@ class SandwichConstraintTest {
                 new SudokuPosition(5, 7)
         )), 15);
 
-        SudokuSolver solver = SudokuSolver.normalSudokuRulesApply()
+        SudokuSolveSolution solve = SudokuSolver.normalSudokuRulesApply()
                 .withConstraint(SandwichConstraint.forRow(1, 0))
                 .withConstraint(SandwichConstraint.forRow(4, 8))
                 .withConstraint(SandwichConstraint.forRow(5, 17))
@@ -144,10 +144,9 @@ class SandwichConstraintTest {
                 .withConstraint(KillerConstraint.rectangularCage(new SudokuRect(6, 8, 6, 9), 13))
                 .withConstraint(KillerConstraint.rectangularCage(new SudokuRect(8, 8, 9, 8), 10))
                 .withConstraint(KillerConstraint.rectangularCage(new SudokuRect(8, 9, 9, 9), 10))
-                .withConstraint(killer15);
-        solver.printKillers();
-
-        SudokuSolveSolution solve = solver.solve();
+                .withConstraint(killer15)
+                .peek(SudokuSolver::printKillers)
+                .solve();
 
         assertEquals(CpSolverStatus.OPTIMAL, solve.getStatus());
 
@@ -164,6 +163,4 @@ class SandwichConstraintTest {
         };
         assertSolved(solve, solution);
     }
-
-
 }
