@@ -15,7 +15,6 @@ import java.util.stream.IntStream;
 
 import static me.kecker.sudokusolver.test.SolvedAssertion.assertSolved;
 import static me.kecker.sudokusolver.utils.SudokuCollectionUtils.startingAtOne;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SandwichConstraintTest {

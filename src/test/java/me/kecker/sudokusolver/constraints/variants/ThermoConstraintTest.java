@@ -14,6 +14,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ThermoConstraintTest {
 
+    /**
+     * Sudoku taken from <a href="https://cracking-the-cryptic.web.app/sudoku/pH83rGHQRR">here</a>
+     * with solution seen in <a href="https://www.youtube.com/watch?v=KTth49YrQVU">this video</a>
+     */
     @Test
     void testThermoSudoku() {
         List<List<SudokuPosition>> thermos = List.of(

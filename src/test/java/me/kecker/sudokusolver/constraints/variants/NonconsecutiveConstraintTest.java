@@ -10,6 +10,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class NonconsecutiveConstraintTest {
 
+    /**
+     * Sudoku taken from <a href="https://www.puzzlemix.com/playgrid.php?id=19693&type=consecutive&ptype=all">here</a>
+     * with solution seen in <a href="https://www.youtube.com/watch?v=5DlMEgPnxRs">this video</a>
+     */
     @Test
     void testNonConsecutiveSudoku() {
         int[][] board = {
@@ -44,6 +48,10 @@ class NonconsecutiveConstraintTest {
         assertSolved(solve, solution);
     }
 
+    /**
+     * Sudoku taken from <a href="https://cracking-the-cryptic.web.app/sudoku/tjN9LtrrTL">here</a>
+     * with solution seen in <a href="https://www.youtube.com/watch?v=yKf9aUIxdb4">this video</a>
+     */
     @Test
     void testMiracleSudoku() {
 
