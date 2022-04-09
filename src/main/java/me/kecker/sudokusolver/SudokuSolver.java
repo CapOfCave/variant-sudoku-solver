@@ -5,6 +5,7 @@ import com.google.ortools.Loader;
 import com.google.ortools.sat.CpModel;
 import com.google.ortools.sat.CpSolver;
 import com.google.ortools.sat.CpSolverStatus;
+import me.kecker.sudokusolver.constraints.variants.SingleDiagonalConstraint;
 import me.kecker.sudokusolver.constraints.normal.BoxesUniqueConstraint;
 import me.kecker.sudokusolver.constraints.normal.ColumnsUniqueConstraint;
 import me.kecker.sudokusolver.constraints.normal.GivenDigit;
@@ -108,6 +109,11 @@ public class SudokuSolver {
             }
         }
         return this;
+    }
+
+    public SudokuSolver withNonRepeatingMainDiagonals() {
+        return withConstraint(new SingleDiagonalConstraint(SingleDiagonalConstraint.DiagonalDirection.POSITIVE))
+                .withConstraint(new SingleDiagonalConstraint(SingleDiagonalConstraint.DiagonalDirection.NEGATIVE));
     }
 
     public SudokuSolveSolution solve() {
