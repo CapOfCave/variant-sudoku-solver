@@ -13,6 +13,7 @@ import me.kecker.sudokusolver.constraints.normal.RowsUniqueConstraint;
 import me.kecker.sudokusolver.constraints.variants.EvenConstraint;
 import me.kecker.sudokusolver.constraints.variants.KillerConstraint;
 import me.kecker.sudokusolver.constraints.variants.OddConstraint;
+import me.kecker.sudokusolver.constraints.variants.ThermoConstraint;
 import me.kecker.sudokusolver.utils.SudokuPosition;
 import me.kecker.sudokusolver.utils.SudokuSolverUtils;
 
@@ -168,14 +169,33 @@ public class SudokuSolver {
                         .orElse(".");
 
         SudokuSolverUtils.printBoard(valuesByPosition, board);
-        System.out.println();
 
+
+    }
+
+    public void printThermos() {
+        List<ThermoConstraint> thermoConstraints = constraints.stream()
+                .filter(sudokuConstraint -> sudokuConstraint instanceof ThermoConstraint)
+                .map(sudokuConstraint -> (ThermoConstraint) sudokuConstraint)
+                .toList();
+
+        // efficient enough (for now)
+        SudokuSolverUtils.ValueSupplier valuesByPosition = (int rowIdx, int columnIdx) ->
+                thermoConstraints.stream()
+                        .flatMap(thermoConstraint -> thermoConstraint.getThermoCells().stream())
+                        .filter(position -> position.rowIdx() == rowIdx && position.columnIdx() == columnIdx)
+                        .map(x -> "X")
+                        .findFirst()
+                        .orElse(".");
+
+        SudokuSolverUtils.printBoard(valuesByPosition, board);
     }
 
     public SudokuSolver peek(Consumer<SudokuSolver> consumer) {
         consumer.accept(this);
         return this;
     }
+
 
 
 }

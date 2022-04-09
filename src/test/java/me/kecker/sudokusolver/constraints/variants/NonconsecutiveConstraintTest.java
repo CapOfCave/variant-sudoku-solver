@@ -1,13 +1,12 @@
 package me.kecker.sudokusolver.constraints.variants;
 
 import com.google.ortools.sat.CpSolverStatus;
-import me.kecker.sudokusolver.SudokuConstraint;
 import me.kecker.sudokusolver.SudokuSolveSolution;
 import me.kecker.sudokusolver.SudokuSolver;
 import org.junit.jupiter.api.Test;
 
 import static me.kecker.sudokusolver.test.SolvedAssertion.assertSolved;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class NonconsecutiveConstraintTest {
 
@@ -52,8 +51,8 @@ class NonconsecutiveConstraintTest {
                 .withConstraint(new NonconsecutiveConstraint())
                 .withConstraint(new KingSudokuConstraint())
                 .withConstraint(new KnightSudokuConstraint())
-                .withGivenDigit(5, 3, 1 )
-                .withGivenDigit(6, 7, 2 )
+                .withGivenDigit(5, 3, 1)
+                .withGivenDigit(6, 7, 2)
                 .peek(SudokuSolver::printBoard)
                 .solve();
 

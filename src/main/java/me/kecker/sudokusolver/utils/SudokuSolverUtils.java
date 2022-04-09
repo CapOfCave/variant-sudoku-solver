@@ -34,6 +34,7 @@ public class SudokuSolverUtils {
 
         }
         printRowSeparator(boxSizeX, boxCountX);
+        System.out.println();
 
     }
 
