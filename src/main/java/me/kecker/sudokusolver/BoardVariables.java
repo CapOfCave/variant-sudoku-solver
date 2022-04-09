@@ -83,4 +83,17 @@ public class BoardVariables {
     public boolean isInBounds(int rowIdx, int columnIdx) {
         return rowIdx >= 0 && rowIdx < getRowCount() && columnIdx >= 0 && columnIdx < getColumnCount();
     }
+
+    public void forEach(VariableConsumer consumer) {
+        for (int rowIdx = 0; rowIdx < getRowCount(); rowIdx++) {
+            for (int columnIdx = 0; columnIdx < getColumnCount(); columnIdx++) {
+                consumer.apply(rowIdx, columnIdx, get(rowIdx, columnIdx));
+            }
+        }
+    }
+
+    @FunctionalInterface
+    public interface VariableConsumer {
+        void apply(int rowIdx, int columnIdx, IntVar variable);
+    }
 }
