@@ -9,6 +9,7 @@ import me.kecker.sudokusolver.constraints.normal.BoxesUniqueConstraint;
 import me.kecker.sudokusolver.constraints.normal.ColumnsUniqueConstraint;
 import me.kecker.sudokusolver.constraints.normal.GivenDigit;
 import me.kecker.sudokusolver.constraints.normal.RowsUniqueConstraint;
+import me.kecker.sudokusolver.constraints.variants.KillerConstraint;
 import me.kecker.sudokusolver.utils.SudokuSolverUtils;
 
 import java.util.ArrayList;
@@ -87,6 +88,26 @@ public class SudokuSolver {
                         .orElse(".");
 
         SudokuSolverUtils.printBoard(valuesByPosition, board);
+
+    }
+
+    public void printKillers() {
+        List<KillerConstraint> killerConstraints = constraints.stream()
+                .filter(sudokuConstraint -> sudokuConstraint instanceof KillerConstraint)
+                .map(sudokuConstraint -> (KillerConstraint) sudokuConstraint)
+                .toList();
+
+        // efficient enough (for now)
+        SudokuSolverUtils.ValueSupplier valuesByPosition = (int rowIdx, int columnIdx) ->
+                killerConstraints.stream()
+                        .flatMap(killerConstraint -> killerConstraint.getAffectedCells().stream())
+                        .filter(position -> position.rowIdx() == rowIdx && position.columnIdx() == columnIdx)
+                        .map(x -> "X")
+                        .findFirst()
+                        .orElse(".");
+
+        SudokuSolverUtils.printBoard(valuesByPosition, board);
+        System.out.println();
 
     }
 

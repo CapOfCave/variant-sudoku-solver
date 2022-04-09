@@ -27,7 +27,7 @@ class KillerConstraintTest {
                 new SudokuPosition(4, 7),
                 new SudokuPosition(4, 6)
         )), 23);
-        SudokuSolveSolution solve = SudokuSolver.normalSudokuRulesApply()
+        SudokuSolver solver = SudokuSolver.normalSudokuRulesApply()
                 .withConstraint(KillerConstraint.rectangularCage(new SudokuRect(1, 1, 1, 2), 14))
                 .withConstraint(KillerConstraint.rectangularCage(new SudokuRect(1, 3, 1, 4), 14))
                 .withConstraint(KillerConstraint.rectangularCage(new SudokuRect(2, 1, 5, 1), 28))
@@ -40,8 +40,9 @@ class KillerConstraintTest {
                 .withConstraint(KillerConstraint.rectangularCage(new SudokuRect(7, 8, 7, 9), 6))
                 .withConstraint(KillerConstraint.rectangularCage(new SudokuRect(9, 2, 9, 5), 12))
                 .withConstraint(KillerConstraint.rectangularCage(new SudokuRect(8, 9, 9, 9), 15))
-                .withConstraint(killer23)
-                .solve();
+                .withConstraint(killer23);
+        solver.printKillers();
+        SudokuSolveSolution solve = solver.solve();
 
         assertEquals(CpSolverStatus.OPTIMAL, solve.getStatus());
 

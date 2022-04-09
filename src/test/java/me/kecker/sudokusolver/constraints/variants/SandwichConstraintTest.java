@@ -6,12 +6,15 @@ import me.kecker.sudokusolver.SudokuSolveSolution;
 import me.kecker.sudokusolver.SudokuSolver;
 import me.kecker.sudokusolver.constraints.normal.RowsUniqueConstraint;
 import me.kecker.sudokusolver.utils.SudokuDirection;
+import me.kecker.sudokusolver.utils.SudokuPosition;
+import me.kecker.sudokusolver.utils.SudokuRect;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.stream.IntStream;
 
 import static me.kecker.sudokusolver.test.SolvedAssertion.assertSolved;
+import static me.kecker.sudokusolver.utils.SudokuCollectionUtils.startingAtOne;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -24,16 +27,12 @@ class SandwichConstraintTest {
                 .withConstraint(new SandwichConstraint(SudokuDirection.ROW, 0, 1, 4, 2))
                 .withGivenDigit(1, 2, 1)
                 .solve();
-        System.out.println(solve.getStatus());
-
         assertEquals(CpSolverStatus.OPTIMAL, solve.getStatus());
-        assertThat(solve.value(1, 1)).isEqualTo(3);
-        assertThat(solve.value(1, 2)).isEqualTo(1);
-        assertThat(solve.value(1, 3)).isEqualTo(2);
-        assertThat(solve.value(1, 4)).isEqualTo(4);
 
-        solve.printBoard();
-        System.out.println(solve.getSolver().getSolutionInfo());
+        int[][] solution = {
+                {3, 1, 2, 4},
+        };
+        assertSolved(solve, solution);
 
     }
 
@@ -70,6 +69,98 @@ class SandwichConstraintTest {
                 {5, 3, 1, 4, 9, 7, 2, 8, 6},
                 {9, 6, 8, 1, 2, 5, 4, 7, 3},
                 {2, 4, 7, 3, 6, 8, 1, 5, 9}
+        };
+        assertSolved(solve, solution);
+    }
+
+    /**
+     * Sudoku taken from <a href="https://cracking-the-cryptic.web.app/sudoku/nrTRpjpgTF">here</a>
+     * with solution seen in <a href="https://www.youtube.com/watch?v=ZzH2_tjQAHE">this video</a>
+     */
+    @Test
+    void test4To6SandwichSudoku() {
+        int[] rowSandwichClues = {35, 16, 10, 14, 6, 2, 1, 25, 7};
+        int[] columnsSandwichClues = {26, 22, 11, 3, 2, 8, 18, 6, 12};
+
+        List<SandwichConstraint> rowConstraints = IntStream.range(0, rowSandwichClues.length)
+                .mapToObj(rowIdx -> new SandwichConstraint(SudokuDirection.ROW, rowIdx, 4, 6, rowSandwichClues[rowIdx]))
+                .toList();
+
+        List<SandwichConstraint> columnConstraints = IntStream.range(0, columnsSandwichClues.length)
+                .mapToObj(columnIdx -> new SandwichConstraint(SudokuDirection.COLUMN, columnIdx, 4, 6, columnsSandwichClues[columnIdx]))
+                .toList();
+
+        SudokuSolveSolution solve = SudokuSolver.normalSudokuRulesApply()
+                .withConstraints(rowConstraints)
+                .withConstraints(columnConstraints)
+                .withGivenDigit(8, 4, 1)
+                .withGivenDigit(9, 6, 4)
+                .solve();
+        assertEquals(CpSolverStatus.OPTIMAL, solve.getStatus());
+
+        int[][] solution = {
+                {4, 1, 3, 5, 8, 2, 9, 7, 6},
+                {2, 5, 8, 6, 9, 7, 4, 3, 1},
+                {9, 6, 7, 3, 4, 1, 5, 8, 2},
+                {8, 3, 1, 4, 2, 5, 7, 6, 9},
+                {7, 9, 5, 8, 6, 3, 2, 1, 4},
+                {6, 2, 4, 7, 1, 9, 3, 5, 8},
+                {5, 8, 2, 9, 3, 6, 1, 4, 7},
+                {3, 4, 9, 1, 7, 8, 6, 2, 5},
+                {1, 7, 6, 2, 5, 4, 8, 9, 3}
+        };
+        assertSolved(solve, solution);
+    }
+
+    /**
+     * Sudoku taken from <a https://app.crackingthecryptic.com/sudoku/P2MgjGj6JF">here</a>
+     */
+    @Test
+    void testSandwichKillerSudoku() {
+
+        var killer15 = new KillerConstraint(startingAtOne(List.of(
+                new SudokuPosition(4, 8),
+                new SudokuPosition(5, 8),
+                new SudokuPosition(5, 7)
+        )), 15);
+
+        SudokuSolver solver = SudokuSolver.normalSudokuRulesApply()
+                .withConstraint(SandwichConstraint.forRow(1, 0))
+                .withConstraint(SandwichConstraint.forRow(4, 8))
+                .withConstraint(SandwichConstraint.forRow(5, 17))
+                .withConstraint(SandwichConstraint.forColumn(1, 33))
+                .withConstraint(SandwichConstraint.forColumn(2, 32))
+                .withConstraint(SandwichConstraint.forColumn(4, 6))
+                .withConstraint(SandwichConstraint.forColumn(5, 21))
+                .withConstraint(SandwichConstraint.forColumn(6, 8))
+                .withConstraint(SandwichConstraint.forColumn(8, 32))
+                .withConstraint(SandwichConstraint.forColumn(9, 33))
+                .withConstraint(KillerConstraint.rectangularCage(new SudokuRect(3, 1, 4, 1), 11))
+                .withConstraint(KillerConstraint.rectangularCage(new SudokuRect(7, 2, 8, 2), 9))
+                .withConstraint(KillerConstraint.rectangularCage(new SudokuRect(1, 4, 2, 4), 7))
+                .withConstraint(KillerConstraint.rectangularCage(new SudokuRect(2, 6, 2, 8), 14))
+                .withConstraint(KillerConstraint.rectangularCage(new SudokuRect(8, 6, 9, 6), 6))
+                .withConstraint(KillerConstraint.rectangularCage(new SudokuRect(3, 7, 3, 9), 21))
+                .withConstraint(KillerConstraint.rectangularCage(new SudokuRect(6, 8, 6, 9), 13))
+                .withConstraint(KillerConstraint.rectangularCage(new SudokuRect(8, 8, 9, 8), 10))
+                .withConstraint(KillerConstraint.rectangularCage(new SudokuRect(8, 9, 9, 9), 10))
+                .withConstraint(killer15);
+        solver.printKillers();
+
+        SudokuSolveSolution solve = solver.solve();
+
+        assertEquals(CpSolverStatus.OPTIMAL, solve.getStatus());
+
+        int[][] solution = {
+                {1, 9, 4, 7, 5, 8, 6, 3, 2},
+                {5, 7, 2, 6, 3, 4, 8, 1, 9},
+                {8, 6, 3, 9, 1, 2, 4, 5, 7},
+                {3, 4, 1, 2, 6, 9, 7, 8, 5},
+                {7, 2, 9, 4, 8, 5, 1, 6, 3},
+                {6, 8, 5, 1, 7, 3, 9, 2, 4},
+                {4, 5, 6, 3, 9, 1, 2, 7, 8},
+                {9, 1, 8, 5, 2, 7, 3, 4, 6},
+                {2, 3, 7, 8, 4, 6, 5, 9, 1}
         };
         assertSolved(solve, solution);
     }

@@ -12,10 +12,16 @@ import java.util.List;
 
 public class KillerConstraint extends CompositeConstraint {
 
+    private final Collection<SudokuPosition> affectedCells;
+    private final int total;
+
     public KillerConstraint(Collection<SudokuPosition> affectedCells, int total) {
         super(List.of(
                 new FixedSumConstraint(affectedCells, total),
                 new UniqueConstraint(affectedCells)));
+
+        this.affectedCells = affectedCells;
+        this.total = total;
     }
 
     public static KillerConstraint rectangularCage(SudokuRect boundsIdxStartingAtOne, int total) {
@@ -32,5 +38,13 @@ public class KillerConstraint extends CompositeConstraint {
         }
         return new KillerConstraint(affectedCells, total);
 
+    }
+
+    public Collection<SudokuPosition> getAffectedCells() {
+        return affectedCells;
+    }
+
+    public int getTotal() {
+        return total;
     }
 }
