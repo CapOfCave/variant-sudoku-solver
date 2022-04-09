@@ -9,7 +9,10 @@ import me.kecker.sudokusolver.constraints.normal.BoxesUniqueConstraint;
 import me.kecker.sudokusolver.constraints.normal.ColumnsUniqueConstraint;
 import me.kecker.sudokusolver.constraints.normal.GivenDigit;
 import me.kecker.sudokusolver.constraints.normal.RowsUniqueConstraint;
+import me.kecker.sudokusolver.constraints.variants.EvenConstraint;
 import me.kecker.sudokusolver.constraints.variants.KillerConstraint;
+import me.kecker.sudokusolver.constraints.variants.OddConstraint;
+import me.kecker.sudokusolver.utils.SudokuPosition;
 import me.kecker.sudokusolver.utils.SudokuSolverUtils;
 
 import java.util.ArrayList;
@@ -81,6 +84,23 @@ public class SudokuSolver {
             for (int columnIdx = 0; columnIdx < charBoard.length; columnIdx++) {
                 if (!Character.isDigit(charBoard[rowIdx][columnIdx])) continue;
                 this.withGivenDigit(rowIdx + 1, columnIdx + 1, Character.getNumericValue(charBoard[rowIdx][columnIdx]));
+            }
+        }
+        return this;
+    }
+
+    /**
+     * 'E' or 'e': Even
+     * 'O' or 'o': Odd
+     * all other chars: unknown
+     */
+    public SudokuSolver withEvenOddConstraintsFromCharArray(char[][] charBoard) {
+        for (int rowIdx = 0; rowIdx < charBoard.length; rowIdx++) {
+            for (int columnIdx = 0; columnIdx < charBoard.length; columnIdx++) {
+                switch (charBoard[rowIdx][columnIdx]) {
+                    case 'e', 'E' -> this.withConstraint(new EvenConstraint(new SudokuPosition(rowIdx, columnIdx)));
+                    case 'o', 'O' -> this.withConstraint(new OddConstraint(new SudokuPosition(rowIdx, columnIdx)));
+                }
             }
         }
         return this;

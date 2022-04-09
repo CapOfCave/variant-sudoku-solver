@@ -48,6 +48,9 @@ class SudokuSolverTest {
         assertSolved(solve, solution);
     }
 
+    /**
+     * Sudoku taken from <a href="https://www.researchgate.net/figure/Sudoku-puzzles-and-its-solution_fig1_228566840">here</a>
+     */
     @Test
     void testNormalSudokuRulesFromIntBoard() {
         int[][] initialState = {
@@ -81,6 +84,9 @@ class SudokuSolverTest {
         assertSolved(solve, solution);
     }
 
+    /**
+     * Sudoku taken from <a href="https://www.researchgate.net/figure/Sudoku-puzzles-and-its-solution_fig1_228566840">here</a>
+     */
     @Test
     void testNormalSudokuRulesFromIntegerBoard() {
         Integer[][] initialState = {
@@ -116,6 +122,9 @@ class SudokuSolverTest {
         assertSolved(solve, solution);
     }
 
+    /**
+     * Sudoku taken from <a href="https://www.researchgate.net/figure/Sudoku-puzzles-and-its-solution_fig1_228566840">here</a>
+     */
     @Test
     void testNormalSudokuRulesFromCharBoard() {
         char[][] initialState = {
