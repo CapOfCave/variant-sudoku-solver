@@ -13,7 +13,6 @@ import me.kecker.sudokusolver.constraints.variants.KillerConstraint;
 import me.kecker.sudokusolver.utils.SudokuSolverUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
@@ -54,6 +53,37 @@ public class SudokuSolver {
         int columnIdx = columnIdxStartingAtOne - 1;
         var givenDigit = new GivenDigit(rowIdx, columnIdx, value);
         return this.withConstraint(givenDigit);
+    }
+
+
+    public SudokuSolver withGivenDigitsFromIntArray(int[][] intBoard) {
+        for (int rowIdx = 0; rowIdx < intBoard.length; rowIdx++) {
+            for (int columnIdx = 0; columnIdx < intBoard.length; columnIdx++) {
+                if (intBoard[rowIdx][columnIdx] <= 0) continue;
+                this.withGivenDigit(rowIdx + 1, columnIdx + 1, intBoard[rowIdx][columnIdx]);
+            }
+        }
+        return this;
+    }
+
+    public SudokuSolver withGivenDigitsFromIntegerArray(Integer[][] integerBoard) {
+        for (int rowIdx = 0; rowIdx < integerBoard.length; rowIdx++) {
+            for (int columnIdx = 0; columnIdx < integerBoard.length; columnIdx++) {
+                if (integerBoard[rowIdx][columnIdx] == null) continue;
+                this.withGivenDigit(rowIdx + 1, columnIdx + 1, integerBoard[rowIdx][columnIdx]);
+            }
+        }
+        return this;
+    }
+
+    public SudokuSolver withGivenDigitsFromCharArray(char[][] charBoard) {
+        for (int rowIdx = 0; rowIdx < charBoard.length; rowIdx++) {
+            for (int columnIdx = 0; columnIdx < charBoard.length; columnIdx++) {
+                if (!Character.isDigit(charBoard[rowIdx][columnIdx])) continue;
+                this.withGivenDigit(rowIdx + 1, columnIdx + 1, Character.getNumericValue(charBoard[rowIdx][columnIdx]));
+            }
+        }
+        return this;
     }
 
     public SudokuSolveSolution solve() {
