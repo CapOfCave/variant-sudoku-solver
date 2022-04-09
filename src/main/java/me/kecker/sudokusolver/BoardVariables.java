@@ -82,7 +82,7 @@ public class BoardVariables {
         return board.getMaxValue();
     }
 
-    public IntVar[] getAll() {
-        return Arrays.stream(variables).flatMap(Arrays::stream).toArray(IntVar[]::new);
+    public boolean isInBounds(int rowIdx, int columnIdx) {
+        return rowIdx >= 0 && rowIdx < getRowCount() && columnIdx >= 0 && columnIdx < getColumnCount();
     }
 }
