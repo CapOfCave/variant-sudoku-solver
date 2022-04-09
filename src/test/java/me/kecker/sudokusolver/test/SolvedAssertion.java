@@ -1,0 +1,19 @@
+package me.kecker.sudokusolver.test;
+
+import me.kecker.sudokusolver.SudokuSolveSolution;
+import org.assertj.core.api.SoftAssertions;
+
+public class SolvedAssertion {
+
+    public static void assertSolved(SudokuSolveSolution solve, int[][] solution) {
+        SoftAssertions softAssertions = new SoftAssertions();
+        for (int rowIdx = 0; rowIdx < solution.length; rowIdx++){
+            for (int columnIdx = 0; columnIdx < solution[rowIdx].length; columnIdx++){
+                softAssertions.assertThat(solve.value(rowIdx + 1, columnIdx + 1))
+                        .as(String.format("r%dc%d", rowIdx + 1, columnIdx + 1))
+                        .isEqualTo(solution[rowIdx][columnIdx]);
+            }
+        }
+        softAssertions.assertAll();
+    }
+}

@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static me.kecker.sudokusolver.test.SolvedAssertion.assertSolved;
 import static me.kecker.sudokusolver.utils.SudokuCollectionUtils.startingAtOne;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -44,14 +45,17 @@ class KillerConstraintTest {
 
         assertEquals(CpSolverStatus.OPTIMAL, solve.getStatus());
 
-        assertEquals(6, solve.value(1, 1));
-        assertEquals(8, solve.value(2, 1));
-        assertEquals(8, solve.value(3, 7));
-        assertEquals(6, solve.value(4, 7));
-        assertEquals(9, solve.value(4, 6));
-
-        solve.printBoard();
-        System.out.println(solve.getSolver().responseStats());
-
+        int[][] solution = {
+                {6, 7, 4, 8, 9, 2, 3, 1, 5},
+                {8, 5, 1, 3, 7, 6, 9, 4, 2},
+                {9, 2, 3, 5, 1, 4, 8, 7, 6},
+                {5, 4, 7, 2, 3, 9, 6, 8, 1},
+                {2, 1, 6, 4, 5, 8, 7, 9, 3},
+                {3, 9, 8, 7, 6, 1, 5, 2, 4},
+                {4, 3, 9, 6, 2, 7, 1, 5, 8},
+                {1, 6, 2, 9, 8, 5, 4, 3, 7},
+                {7, 8, 5, 1, 4, 3, 2, 6, 9},
+        };
+        assertSolved(solve, solution);
     }
 }

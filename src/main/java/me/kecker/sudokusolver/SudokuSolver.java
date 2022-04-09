@@ -37,6 +37,11 @@ public class SudokuSolver {
         return new SudokuSolver(board);
     }
 
+    public SudokuSolver withConstraints(Collection<? extends SudokuConstraint> constraints) {
+        this.constraints.addAll(constraints);
+        return this;
+    }
+
     public SudokuSolver withConstraint(SudokuConstraint constraint) {
         this.constraints.add(constraint);
         return this;
@@ -57,13 +62,9 @@ public class SudokuSolver {
         BoardVariables variables = this.board.createVariables(model);
         this.constraints.forEach(constraints -> constraints.apply(model, variables));
 
-
         CpSolver solver = new CpSolver();
 
-        var variablesToShow = new ArrayList<>(DebugVarsHelper.get());
-        variablesToShow.addAll(Arrays.asList(variables.getAll()));
-
-        SolutionPrinter cb = new SolutionPrinter(variablesToShow);
+        SolutionPrinter cb = new SolutionPrinter(variables, DebugVarsHelper.get());
         solver.getParameters().setEnumerateAllSolutions(true);
         CpSolverStatus status = solver.solve(model, cb);
 

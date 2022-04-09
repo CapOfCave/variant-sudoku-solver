@@ -3,6 +3,7 @@ package me.kecker.sudokusolver;
 import com.google.ortools.sat.CpSolverStatus;
 import org.junit.jupiter.api.Test;
 
+import static me.kecker.sudokusolver.test.SolvedAssertion.assertSolved;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SudokuSolverTest {
@@ -12,7 +13,7 @@ class SudokuSolverTest {
      */
     @Test
     void testNormalSudokuRules() {
-        SudokuSolver sudokuSolver = SudokuSolver.normalSudokuRulesApply()
+        SudokuSolveSolution solve = SudokuSolver.normalSudokuRulesApply()
                 .withGivenDigit(1, 4, 8)
                 .withGivenDigit(1, 6, 1)
                 .withGivenDigit(2, 8, 4)
@@ -29,15 +30,21 @@ class SudokuSolverTest {
                 .withGivenDigit(8, 3, 3)
                 .withGivenDigit(8, 4, 4)
                 .withGivenDigit(9, 4, 2)
-                .withGivenDigit(9, 7, 6);
-
-        SudokuSolveSolution solve = sudokuSolver.solve();
+                .withGivenDigit(9, 7, 6)
+                .solve();
 
         assertEquals(CpSolverStatus.OPTIMAL, solve.getStatus());
-        assertEquals(8, solve.value(2, 2));
-        assertEquals(6, solve.value(2, 3));
-
-        solve.printBoard();
-        System.out.println(solve.getSolver().responseStats());
+        int[][] solution = {
+                {2, 3, 7, 8, 4, 1, 5, 6, 9},
+                {1, 8, 6, 7, 9, 5, 2, 4, 3},
+                {5, 9, 4, 3, 2, 6, 7, 1, 8},
+                {3, 1, 5, 6, 7, 4, 8, 9, 2},
+                {4, 6, 9, 5, 8, 2, 1, 3, 7},
+                {7, 2, 8, 1, 3, 9, 4, 5, 6},
+                {6, 4, 2, 9, 1, 8, 3, 7, 5},
+                {8, 5, 3, 4, 6, 7, 9, 2, 1},
+                {9, 7, 1, 2, 5, 3, 6, 8, 4},
+        };
+        assertSolved(solve, solution);
     }
 }

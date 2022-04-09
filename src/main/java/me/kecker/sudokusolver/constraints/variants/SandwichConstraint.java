@@ -36,6 +36,14 @@ public class SandwichConstraint implements SudokuConstraint {
         this.value = value;
     }
 
+    public static SandwichConstraint forRow(int rowIdxStartingAt1, int value) {
+        return new SandwichConstraint(SudokuDirection.ROW, rowIdxStartingAt1 - 1, 1, 9, value);
+    }
+
+    public static SandwichConstraint forColumn(int columnIdxStartingAt1, int value) {
+        return new SandwichConstraint(SudokuDirection.COLUMN, columnIdxStartingAt1 - 1, 1, 9, value);
+    }
+
     @Override
     public void apply(CpModel model, BoardVariables boardVariables) {
         IntFunction<IntVar> getAtPosition = (int position) -> switch (direction) {
