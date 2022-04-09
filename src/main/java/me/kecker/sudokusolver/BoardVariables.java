@@ -84,6 +84,10 @@ public class BoardVariables {
         return rowIdx >= 0 && rowIdx < getRowCount() && columnIdx >= 0 && columnIdx < getColumnCount();
     }
 
+    public boolean isInBounds(SudokuPosition position) {
+        return isInBounds(position.rowIdx(), position.columnIdx());
+    }
+
     public void forEach(VariableConsumer consumer) {
         for (int rowIdx = 0; rowIdx < getRowCount(); rowIdx++) {
             for (int columnIdx = 0; columnIdx < getColumnCount(); columnIdx++) {

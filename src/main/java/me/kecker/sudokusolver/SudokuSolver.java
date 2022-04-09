@@ -5,6 +5,7 @@ import com.google.ortools.Loader;
 import com.google.ortools.sat.CpModel;
 import com.google.ortools.sat.CpSolver;
 import com.google.ortools.sat.CpSolverStatus;
+import me.kecker.sudokusolver.constraints.variants.LittleKillerConstraint;
 import me.kecker.sudokusolver.constraints.variants.SingleDiagonalConstraint;
 import me.kecker.sudokusolver.constraints.normal.BoxesUniqueConstraint;
 import me.kecker.sudokusolver.constraints.normal.ColumnsUniqueConstraint;
@@ -117,6 +118,10 @@ public class SudokuSolver {
                 .withConstraint(new SingleDiagonalConstraint(SingleDiagonalConstraint.DiagonalDirection.NEGATIVE));
     }
 
+    public SudokuSolver withLittleKillerConstraint(int rowIdxStartingAt1, int columnIdxStartingAt1, LittleKillerConstraint.LittleKillerDirection direction, int sum) {
+        return withConstraint(new LittleKillerConstraint(new SudokuPosition(rowIdxStartingAt1 - 1, columnIdxStartingAt1 - 1), direction, sum));
+    }
+
     public SudokuSolveSolution solve() {
         // won't do anything when executed a second time
         Loader.loadNativeLibraries();
@@ -195,7 +200,6 @@ public class SudokuSolver {
         consumer.accept(this);
         return this;
     }
-
 
 
 }
