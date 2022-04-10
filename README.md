@@ -23,6 +23,7 @@ This library aims toward being able to solve all somewhat popular Sudoku variant
 - [x] Palindrome Sudoku
 - [x] Disjoint Groups Sudoku
 - [x] Nonconsecutive Sudoku
+- [x] Clone Sudoku
 
 ### Coming Soon (-ish):
 
@@ -30,7 +31,6 @@ This library aims toward being able to solve all somewhat popular Sudoku variant
   - [ ] Difference Sudoku
   - [ ] Ratio Sudoku 
   - [ ] Difference/Ratio Sudoku with Negative Constraint
-- [ ] Clone Sudoku
 - [ ] Arrow Sudoku
 - [ ] Between Line Sudoku
 - [ ] Minimum/Maximum Sudoku
