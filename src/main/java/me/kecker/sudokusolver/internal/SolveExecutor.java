@@ -13,23 +13,28 @@ import java.util.Collection;
 
 public class SolveExecutor {
 
-    public SolutionSet solve(Board board, Collection<SudokuConstraint> constraints) {
-        // won't do anything when executed a second time
-        Loader.loadNativeLibraries();
+    private final CpSolver solver;
 
+    static {
+        Loader.loadNativeLibraries();
+    }
+
+    public SolveExecutor() {
+        solver = new CpSolver();
+        solver.getParameters().setMaxTimeInSeconds(20.0);
+        solver.getParameters().setEnumerateAllSolutions(true);
+    }
+
+    public SolutionSet solve(Board board, Collection<SudokuConstraint> constraints) {
         CpModel model = new CpModel();
         BoardVariables variables = board.createVariables(model);
         constraints.forEach(constraint -> constraint.apply(model, variables));
 
-        CpSolver solver = new CpSolver();
-
         SolutionCatcher solutionCatcher = new SolutionCatcher(variables, 2, board);
 
-        solver.getParameters().setMaxTimeInSeconds(20.0);
-        solver.getParameters().setEnumerateAllSolutions(true);
         CpSolverStatus status = solver.solve(model, solutionCatcher);
 
-        return new SolutionSet(variables, solver, status, solutionCatcher.getSolutions());
+        return new SolutionSet(status, solutionCatcher.getSolutions());
     }
 
 }
