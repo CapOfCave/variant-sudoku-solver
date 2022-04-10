@@ -5,15 +5,16 @@ import com.google.ortools.Loader;
 import com.google.ortools.sat.CpModel;
 import com.google.ortools.sat.CpSolver;
 import com.google.ortools.sat.CpSolverStatus;
-import me.kecker.sudokusolver.constraints.variants.LittleKillerConstraint;
-import me.kecker.sudokusolver.constraints.variants.SingleDiagonalConstraint;
 import me.kecker.sudokusolver.constraints.normal.BoxesUniqueConstraint;
 import me.kecker.sudokusolver.constraints.normal.ColumnsUniqueConstraint;
 import me.kecker.sudokusolver.constraints.normal.GivenDigit;
 import me.kecker.sudokusolver.constraints.normal.RowsUniqueConstraint;
+import me.kecker.sudokusolver.constraints.variants.ArrowConstraint;
 import me.kecker.sudokusolver.constraints.variants.EvenConstraint;
 import me.kecker.sudokusolver.constraints.variants.KillerConstraint;
+import me.kecker.sudokusolver.constraints.variants.LittleKillerConstraint;
 import me.kecker.sudokusolver.constraints.variants.OddConstraint;
+import me.kecker.sudokusolver.constraints.variants.SingleDiagonalConstraint;
 import me.kecker.sudokusolver.constraints.variants.ThermoConstraint;
 import me.kecker.sudokusolver.utils.SudokuPosition;
 import me.kecker.sudokusolver.utils.SudokuSolverUtils;
@@ -191,6 +192,30 @@ public class SudokuSolver {
                         .filter(position -> position.rowIdx() == rowIdx && position.columnIdx() == columnIdx)
                         .map(x -> "X")
                         .findFirst()
+                        .orElse(".");
+
+        SudokuSolverUtils.printBoard(valuesByPosition, board);
+    }
+
+
+    public void printArrows() {
+        List<ArrowConstraint> arrowConstraints = constraints.stream()
+                .filter(sudokuConstraint -> sudokuConstraint instanceof ArrowConstraint)
+                .map(sudokuConstraint -> (ArrowConstraint) sudokuConstraint)
+                .toList();
+
+        // efficient enough (for now)
+        SudokuSolverUtils.ValueSupplier valuesByPosition = (int rowIdx, int columnIdx) ->
+                arrowConstraints.stream()
+                        .map(ArrowConstraint::getBulbPosition)
+                        .filter(position -> position.rowIdx() == rowIdx && position.columnIdx() == columnIdx)
+                        .map(x -> "X")
+                        .findFirst()
+                        .or(() -> arrowConstraints.stream()
+                                .flatMap(arrowConstraint -> arrowConstraint.getShaftPositions().stream())
+                                .filter(position -> position.rowIdx() == rowIdx && position.columnIdx() == columnIdx)
+                                .map(x -> "O")
+                                .findFirst())
                         .orElse(".");
 
         SudokuSolverUtils.printBoard(valuesByPosition, board);
