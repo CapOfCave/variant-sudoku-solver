@@ -1,11 +1,9 @@
 package me.kecker.sudokusolver;
 
-import com.google.ortools.sat.CpSolverStatus;
-import me.kecker.sudokusolver.result.SolutionSet;
+import me.kecker.sudokusolver.result.Solution;
 import org.junit.jupiter.api.Test;
 
 import static me.kecker.sudokusolver.test.SolvedAssertion.assertSolved;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SudokuSolverTest {
 
@@ -14,7 +12,7 @@ class SudokuSolverTest {
      */
     @Test
     void testNormalSudokuRules() {
-        SolutionSet solve = SudokuSolver.normalSudokuRulesApply()
+        Solution solve = SudokuSolver.normalSudokuRulesApply()
                 .withGivenDigit(1, 4, 8)
                 .withGivenDigit(1, 6, 1)
                 .withGivenDigit(2, 8, 4)
@@ -32,9 +30,9 @@ class SudokuSolverTest {
                 .withGivenDigit(8, 4, 4)
                 .withGivenDigit(9, 4, 2)
                 .withGivenDigit(9, 7, 6)
-                .solve();
+                .solve()
+                .withExactlyOneSolution();
 
-        assertEquals(CpSolverStatus.OPTIMAL, solve.getStatus());
         int[][] solution = {
                 {2, 3, 7, 8, 4, 1, 5, 6, 9},
                 {1, 8, 6, 7, 9, 5, 2, 4, 3},
@@ -65,12 +63,12 @@ class SudokuSolverTest {
                 {0, 5, 4, 0, 0, 0, 9, 1, 0},
                 {0, 0, 7, 5, 0, 3, 2, 0, 0},
         };
-        SolutionSet solve = SudokuSolver.normalSudokuRulesApply()
+        Solution solve = SudokuSolver.normalSudokuRulesApply()
                 .withGivenDigitsFromIntArray(initialState)
                 .peek(SudokuSolver::printBoard)
-                .solve();
+                .solve()
+                .withExactlyOneSolution();
 
-        assertEquals(CpSolverStatus.OPTIMAL, solve.getStatus());
         int[][] solution = {
                 {8, 4, 6, 1, 7, 2, 5, 9, 3},
                 {7, 3, 9, 6, 5, 8, 1, 4, 2},
@@ -103,12 +101,12 @@ class SudokuSolverTest {
                 {null, null,    7,    5, null,    3,    2, null, null},
 //@formatter:off
         };
-        SolutionSet solve = SudokuSolver.normalSudokuRulesApply()
+        Solution solve = SudokuSolver.normalSudokuRulesApply()
                 .withGivenDigitsFromIntegerArray(initialState)
                 .peek(SudokuSolver::printBoard)
-                .solve();
+                .solve()
+                .withExactlyOneSolution();
 
-        assertEquals(CpSolverStatus.OPTIMAL, solve.getStatus());
         int[][] solution = {
                 {8, 4, 6, 1, 7, 2, 5, 9, 3},
                 {7, 3, 9, 6, 5, 8, 1, 4, 2},
@@ -139,12 +137,12 @@ class SudokuSolverTest {
                 {'?', '5', '4', '?', '?', '?', '9', '1', '?'},
                 {'?', '?', '7', '5', '?', '3', '2', '?', '?'},
         };
-        SolutionSet solve = SudokuSolver.normalSudokuRulesApply()
+        Solution solve = SudokuSolver.normalSudokuRulesApply()
                 .withGivenDigitsFromCharArray(initialState)
                 .peek(SudokuSolver::printBoard)
-                .solve();
+                .solve()
+                .withExactlyOneSolution();
 
-        assertEquals(CpSolverStatus.OPTIMAL, solve.getStatus());
         int[][] solution = {
                 {8, 4, 6, 1, 7, 2, 5, 9, 3},
                 {7, 3, 9, 6, 5, 8, 1, 4, 2},

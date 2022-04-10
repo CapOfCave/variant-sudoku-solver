@@ -1,12 +1,10 @@
 package me.kecker.sudokusolver.constraints.variants;
 
-import com.google.ortools.sat.CpSolverStatus;
-import me.kecker.sudokusolver.result.SolutionSet;
 import me.kecker.sudokusolver.SudokuSolver;
+import me.kecker.sudokusolver.result.Solution;
 import org.junit.jupiter.api.Test;
 
 import static me.kecker.sudokusolver.test.SolvedAssertion.assertSolved;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class KnightSudokuConstraintTest {
 
@@ -16,7 +14,7 @@ class KnightSudokuConstraintTest {
      */
     @Test
     void testKnightSudoku() {
-        SolutionSet solve = SudokuSolver.normalSudokuRulesApply()
+        Solution solve = SudokuSolver.normalSudokuRulesApply()
                 .withConstraint(new KnightSudokuConstraint())
                 .withGivenDigit(1, 1, 7)
                 .withGivenDigit(1, 4, 2)
@@ -37,9 +35,9 @@ class KnightSudokuConstraintTest {
                 .withGivenDigit(9, 6, 8)
                 .withGivenDigit(9, 9, 4)
                 .peek(SudokuSolver::printBoard)
-                .solve();
+                .solve()
+                .withExactlyOneSolution();
 
-        assertEquals(CpSolverStatus.OPTIMAL, solve.getStatus());
         int[][] solution = {
                 {7, 1, 5, 2, 8, 6, 4, 3, 9},
                 {2, 8, 9, 3, 7, 4, 6, 5, 1},

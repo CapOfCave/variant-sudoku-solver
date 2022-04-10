@@ -1,12 +1,11 @@
 package me.kecker.sudokusolver.constraints.variants;
 
-import com.google.ortools.sat.CpSolverStatus;
 import me.kecker.sudokusolver.Board;
 import me.kecker.sudokusolver.SudokuSolver;
 import me.kecker.sudokusolver.constraints.normal.RowsUniqueConstraint;
 import me.kecker.sudokusolver.dtos.Position;
 import me.kecker.sudokusolver.dtos.Rect;
-import me.kecker.sudokusolver.result.SolutionSet;
+import me.kecker.sudokusolver.result.Solution;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -14,18 +13,17 @@ import java.util.stream.IntStream;
 
 import static me.kecker.sudokusolver.test.SolvedAssertion.assertSolved;
 import static me.kecker.sudokusolver.utils.SudokuCollectionUtils.startingAtOne;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SandwichConstraintTest {
 
     @Test
     void testOneSimpleRowSandwich() {
-        SolutionSet solve = SudokuSolver.fromBoard(new Board(4, 1, 1, 1, 1, 4))
+        Solution solve = SudokuSolver.fromBoard(new Board(4, 1, 1, 1, 1, 4))
                 .withConstraint(new RowsUniqueConstraint())
                 .withConstraint(new SandwichConstraint(SandwichConstraint.SandwichDirection.ROW, 0, 1, 4, 2))
                 .withGivenDigit(1, 2, 1)
-                .solve();
-        assertEquals(CpSolverStatus.OPTIMAL, solve.getStatus());
+                .solve()
+                .withExactlyOneSolution();
 
         int[][] solution = {
                 {3, 1, 2, 4},
@@ -49,13 +47,13 @@ class SandwichConstraintTest {
                 .mapToObj(columnIdx -> SandwichConstraint.forColumn(columnIdx + 1, columnsSandwichClues[columnIdx]))
                 .toList();
 
-        SolutionSet solve = SudokuSolver.normalSudokuRulesApply()
+        Solution solve = SudokuSolver.normalSudokuRulesApply()
                 .withConstraints(rowConstraints)
                 .withConstraints(columnConstraints)
                 .withGivenDigit(1, 9, 1)
                 .withGivenDigit(5, 5, 1)
-                .solve();
-        assertEquals(CpSolverStatus.OPTIMAL, solve.getStatus());
+                .solve()
+                .withExactlyOneSolution();
 
         int[][] solution = {
                 {4, 8, 5, 6, 7, 9, 3, 2, 1},
@@ -88,13 +86,13 @@ class SandwichConstraintTest {
                 .mapToObj(columnIdx -> new SandwichConstraint(SandwichConstraint.SandwichDirection.COLUMN, columnIdx, 4, 6, columnsSandwichClues[columnIdx]))
                 .toList();
 
-        SolutionSet solve = SudokuSolver.normalSudokuRulesApply()
+        Solution solve = SudokuSolver.normalSudokuRulesApply()
                 .withConstraints(rowConstraints)
                 .withConstraints(columnConstraints)
                 .withGivenDigit(8, 4, 1)
                 .withGivenDigit(9, 6, 4)
-                .solve();
-        assertEquals(CpSolverStatus.OPTIMAL, solve.getStatus());
+                .solve()
+                .withExactlyOneSolution();
 
         int[][] solution = {
                 {4, 1, 3, 5, 8, 2, 9, 7, 6},
@@ -122,7 +120,7 @@ class SandwichConstraintTest {
                 new Position(5, 7)
         )), 15);
 
-        SolutionSet solve = SudokuSolver.normalSudokuRulesApply()
+        Solution solve = SudokuSolver.normalSudokuRulesApply()
                 .withConstraint(SandwichConstraint.forRow(1, 0))
                 .withConstraint(SandwichConstraint.forRow(4, 8))
                 .withConstraint(SandwichConstraint.forRow(5, 17))
@@ -144,9 +142,8 @@ class SandwichConstraintTest {
                 .withConstraint(KillerConstraint.rectangularCage(new Rect(8, 9, 9, 9), 10))
                 .withConstraint(killer15)
                 .peek(SudokuSolver::printKillers)
-                .solve();
-
-        assertEquals(CpSolverStatus.OPTIMAL, solve.getStatus());
+                .solve()
+                .withExactlyOneSolution();
 
         int[][] solution = {
                 {1, 9, 4, 7, 5, 8, 6, 3, 2},

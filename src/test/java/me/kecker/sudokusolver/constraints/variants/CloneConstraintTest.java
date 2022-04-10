@@ -1,16 +1,14 @@
 package me.kecker.sudokusolver.constraints.variants;
 
-import com.google.ortools.sat.CpSolverStatus;
-import me.kecker.sudokusolver.result.SolutionSet;
 import me.kecker.sudokusolver.SudokuSolver;
 import me.kecker.sudokusolver.dtos.Offset;
 import me.kecker.sudokusolver.dtos.Position;
+import me.kecker.sudokusolver.result.Solution;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static me.kecker.sudokusolver.test.SolvedAssertion.assertSolved;
-import static org.junit.jupiter.api.Assertions.*;
 import static me.kecker.sudokusolver.utils.SudokuCollectionUtils.startingAtOne;
 
 class CloneConstraintTest {
@@ -32,7 +30,7 @@ class CloneConstraintTest {
                 {4, 0, 1, 0, 0, 0, 0, 0, 0},
                 {0, 3, 0, 0, 4, 0, 0, 0, 0},
         };
-        SolutionSet solve = SudokuSolver.normalSudokuRulesApply()
+        Solution solve = SudokuSolver.normalSudokuRulesApply()
                 .withGivenDigitsFromIntArray(board)
                 .withConstraint(new CloneConstraint(startingAtOne(List.of(
                         new Position(1, 1),
@@ -50,9 +48,8 @@ class CloneConstraintTest {
                         new Position(5, 4)
                 )), new Offset(4, 5)))
                 .peek(SudokuSolver::printBoard)
-                .solve();
-
-        assertEquals(CpSolverStatus.OPTIMAL, solve.getStatus());
+                .solve()
+                .withExactlyOneSolution();
 
         int[][] solution = {
                 {3, 8, 6, 4, 7, 2, 5, 1, 9},

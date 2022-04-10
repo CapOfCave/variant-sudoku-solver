@@ -9,8 +9,11 @@ import me.kecker.sudokusolver.utils.SudokuSolverUtils;
 import java.util.List;
 
 public class SolutionSet {
+    @Deprecated
     private final BoardVariables variables;
+    @Deprecated
     private final CpSolver solver;
+    @Deprecated
     private final CpSolverStatus status;
 
     private final List<Solution> solutions;

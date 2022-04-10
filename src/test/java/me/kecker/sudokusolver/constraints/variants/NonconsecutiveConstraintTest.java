@@ -1,12 +1,10 @@
 package me.kecker.sudokusolver.constraints.variants;
 
-import com.google.ortools.sat.CpSolverStatus;
-import me.kecker.sudokusolver.result.SolutionSet;
 import me.kecker.sudokusolver.SudokuSolver;
+import me.kecker.sudokusolver.result.Solution;
 import org.junit.jupiter.api.Test;
 
 import static me.kecker.sudokusolver.test.SolvedAssertion.assertSolved;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class NonconsecutiveConstraintTest {
 
@@ -27,13 +25,13 @@ class NonconsecutiveConstraintTest {
                 {0, 0, 7, 0, 9, 0, 8, 0, 0},
                 {3, 0, 0, 0, 0, 0, 0, 0, 7},
         };
-        SolutionSet solve = SudokuSolver.normalSudokuRulesApply()
+        Solution solve = SudokuSolver.normalSudokuRulesApply()
                 .withConstraint(new NonconsecutiveConstraint())
                 .withGivenDigitsFromIntArray(board)
                 .peek(SudokuSolver::printBoard)
-                .solve();
+                .solve()
+                .withExactlyOneSolution();
 
-        assertEquals(CpSolverStatus.OPTIMAL, solve.getStatus());
         int[][] solution = {
                 {5, 3, 9, 6, 8, 2, 7, 1, 4},
                 {2, 8, 6, 4, 1, 7, 5, 3, 9},
@@ -55,16 +53,16 @@ class NonconsecutiveConstraintTest {
     @Test
     void testMiracleSudoku() {
 
-        SolutionSet solve = SudokuSolver.normalSudokuRulesApply()
+        Solution solve = SudokuSolver.normalSudokuRulesApply()
                 .withConstraint(new NonconsecutiveConstraint())
                 .withConstraint(new KingSudokuConstraint())
                 .withConstraint(new KnightSudokuConstraint())
                 .withGivenDigit(5, 3, 1)
                 .withGivenDigit(6, 7, 2)
                 .peek(SudokuSolver::printBoard)
-                .solve();
+                .solve()
+                .withExactlyOneSolution();
 
-        assertEquals(CpSolverStatus.OPTIMAL, solve.getStatus());
         int[][] solution = {
                 {4, 8, 3, 7, 2, 6, 1, 5, 9},
                 {7, 2, 6, 1, 5, 9, 4, 8, 3},

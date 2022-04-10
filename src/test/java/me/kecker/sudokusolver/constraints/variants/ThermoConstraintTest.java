@@ -1,16 +1,14 @@
 package me.kecker.sudokusolver.constraints.variants;
 
-import com.google.ortools.sat.CpSolverStatus;
-import me.kecker.sudokusolver.result.SolutionSet;
 import me.kecker.sudokusolver.SudokuSolver;
-import me.kecker.sudokusolver.utils.SudokuCollectionUtils;
 import me.kecker.sudokusolver.dtos.Position;
+import me.kecker.sudokusolver.result.Solution;
+import me.kecker.sudokusolver.utils.SudokuCollectionUtils;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static me.kecker.sudokusolver.test.SolvedAssertion.assertSolved;
-import static org.junit.jupiter.api.Assertions.*;
 
 class ThermoConstraintTest {
 
@@ -91,13 +89,13 @@ class ThermoConstraintTest {
                         new Position(9, 5)
                 )
         );
-        SolutionSet solve = SudokuSolver.normalSudokuRulesApply()
+        Solution solve = SudokuSolver.normalSudokuRulesApply()
                 .withConstraints(thermos.stream().map(SudokuCollectionUtils::startingAtOne).map(ThermoConstraint::new).toList())
                 .peek(SudokuSolver::printThermos)
-                .solve();
+                .solve()
+                .withExactlyOneSolution();
 
 
-        assertEquals(CpSolverStatus.OPTIMAL, solve.getStatus());
         int[][] solution = {
                 {9, 8, 7, 6, 3, 4, 1, 2, 5},
                 {6, 2, 1, 5, 7, 8, 3, 4, 9},

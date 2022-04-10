@@ -1,12 +1,10 @@
 package me.kecker.sudokusolver.constraints.variants;
 
-import com.google.ortools.sat.CpSolverStatus;
-import me.kecker.sudokusolver.result.SolutionSet;
 import me.kecker.sudokusolver.SudokuSolver;
+import me.kecker.sudokusolver.result.Solution;
 import org.junit.jupiter.api.Test;
 
 import static me.kecker.sudokusolver.test.SolvedAssertion.assertSolved;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class OddEvenConstraintTest {
 
@@ -42,12 +40,11 @@ public class OddEvenConstraintTest {
 
         };
 
-        SolutionSet solve = SudokuSolver.normalSudokuRulesApply()
+        Solution solve = SudokuSolver.normalSudokuRulesApply()
                 .withGivenDigitsFromIntArray(board)
                 .withEvenOddConstraintsFromCharArray(evenOdd)
-                .solve();
-
-        assertEquals(CpSolverStatus.OPTIMAL, solve.getStatus());
+                .solve()
+                .withExactlyOneSolution();
 
         int[][] solution = {
                 {4, 7, 5, 8, 6, 3, 2, 1, 9},

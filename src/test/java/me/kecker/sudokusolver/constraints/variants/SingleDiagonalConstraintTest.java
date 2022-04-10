@@ -1,12 +1,10 @@
 package me.kecker.sudokusolver.constraints.variants;
 
-import com.google.ortools.sat.CpSolverStatus;
-import me.kecker.sudokusolver.result.SolutionSet;
 import me.kecker.sudokusolver.SudokuSolver;
+import me.kecker.sudokusolver.result.Solution;
 import org.junit.jupiter.api.Test;
 
 import static me.kecker.sudokusolver.test.SolvedAssertion.assertSolved;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SingleDiagonalConstraintTest {
 
@@ -26,13 +24,12 @@ class SingleDiagonalConstraintTest {
                 {0, 0, 7, 8, 9, 0, 0, 0, 5},
                 {0, 0, 0, 0, 0, 0, 0, 0, 0},
         };
-        SolutionSet solve = SudokuSolver.normalSudokuRulesApply()
+        Solution solve = SudokuSolver.normalSudokuRulesApply()
                 .withNonRepeatingMainDiagonals()
                 .withGivenDigitsFromIntArray(board)
                 .peek(SudokuSolver::printBoard)
-                .solve();
-
-        assertEquals(CpSolverStatus.OPTIMAL, solve.getStatus());
+                .solve()
+                .withExactlyOneSolution();
 
         int[][] solution = {
                 {7, 8, 6, 3, 5, 1, 2, 4, 9},

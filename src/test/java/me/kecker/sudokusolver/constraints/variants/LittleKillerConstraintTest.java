@@ -1,8 +1,7 @@
 package me.kecker.sudokusolver.constraints.variants;
 
-import com.google.ortools.sat.CpSolverStatus;
-import me.kecker.sudokusolver.result.SolutionSet;
 import me.kecker.sudokusolver.SudokuSolver;
+import me.kecker.sudokusolver.result.Solution;
 import org.junit.jupiter.api.Test;
 
 import static me.kecker.sudokusolver.constraints.variants.LittleKillerConstraint.LittleKillerDirection.DOWN_LEFT;
@@ -10,7 +9,6 @@ import static me.kecker.sudokusolver.constraints.variants.LittleKillerConstraint
 import static me.kecker.sudokusolver.constraints.variants.LittleKillerConstraint.LittleKillerDirection.UP_LEFT;
 import static me.kecker.sudokusolver.constraints.variants.LittleKillerConstraint.LittleKillerDirection.UP_RIGHT;
 import static me.kecker.sudokusolver.test.SolvedAssertion.assertSolved;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class LittleKillerConstraintTest {
 
@@ -19,7 +17,7 @@ class LittleKillerConstraintTest {
      */
     @Test
     void testLittleKillerSudoku() {
-        SolutionSet solve = SudokuSolver.normalSudokuRulesApply()
+        Solution solve = SudokuSolver.normalSudokuRulesApply()
                 .withLittleKillerConstraint(2, 1, DOWN_RIGHT, 41)
                 .withLittleKillerConstraint(6, 1, DOWN_RIGHT, 19)
                 .withLittleKillerConstraint(7, 1, DOWN_RIGHT, 19)
@@ -38,9 +36,8 @@ class LittleKillerConstraintTest {
                 .withLittleKillerConstraint(1, 7, DOWN_LEFT, 47)
                 .withLittleKillerConstraint(1, 3, DOWN_LEFT, 12)
                 .withLittleKillerConstraint(1, 2, DOWN_LEFT, 11)
-                .solve();
-
-        assertEquals(CpSolverStatus.OPTIMAL, solve.getStatus());
+                .solve()
+                .withExactlyOneSolution();
 
         int[][] solution = {
                 {1, 6, 3, 2, 5, 7, 4, 9, 8},

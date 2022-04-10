@@ -1,13 +1,11 @@
 package me.kecker.sudokusolver.constraints.variants;
 
-import com.google.ortools.sat.CpSolverStatus;
 import me.kecker.sudokusolver.Board;
-import me.kecker.sudokusolver.result.SolutionSet;
 import me.kecker.sudokusolver.SudokuSolver;
+import me.kecker.sudokusolver.result.Solution;
 import org.junit.jupiter.api.Test;
 
 import static me.kecker.sudokusolver.test.SolvedAssertion.assertSolved;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DisjointGroupsConstraintsTest {
 
@@ -25,14 +23,14 @@ class DisjointGroupsConstraintsTest {
                 {0, 0, 5, 0, 6, 0},
                 {6, 0, 0, 0, 0, 1}
         };
-        SolutionSet solve = SudokuSolver.fromBoard(new Board(3, 2, 2, 3, 1, 6))
+        Solution solve = SudokuSolver.fromBoard(new Board(3, 2, 2, 3, 1, 6))
                 .withNormalSudokuRulesConstraints()
                 .withGivenDigitsFromIntArray(board)
                 .withConstraint(new DisjointGroupsConstraints())
                 .peek(SudokuSolver::printBoard)
-                .solve();
+                .solve()
+                .withExactlyOneSolution();
 
-        assertEquals(CpSolverStatus.OPTIMAL, solve.getStatus());
         int[][] solution = {
                 {1, 4, 2, 5, 3, 6},
                 {5, 3, 6, 1, 4, 2},
@@ -62,13 +60,13 @@ class DisjointGroupsConstraintsTest {
                 {0, 4, 0, 0, 8, 0, 0, 7, 0},
                 {9, 0, 6, 0, 4, 0, 0, 0, 3},
         };
-        SolutionSet solve = SudokuSolver.normalSudokuRulesApply()
+        Solution solve = SudokuSolver.normalSudokuRulesApply()
                 .withGivenDigitsFromIntArray(board)
                 .withConstraint(new DisjointGroupsConstraints())
                 .peek(SudokuSolver::printBoard)
-                .solve();
+                .solve()
+                .withExactlyOneSolution();
 
-        assertEquals(CpSolverStatus.OPTIMAL, solve.getStatus());
         int[][] solution = {
                 {1, 6, 9, 2, 7, 8, 3, 5, 4},
                 {8, 5, 7, 3, 6, 4, 1, 9, 2},

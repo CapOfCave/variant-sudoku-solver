@@ -1,16 +1,14 @@
 package me.kecker.sudokusolver.constraints.variants;
 
-import com.google.ortools.sat.CpSolverStatus;
-import me.kecker.sudokusolver.result.SolutionSet;
 import me.kecker.sudokusolver.SudokuSolver;
-import me.kecker.sudokusolver.utils.SudokuCollectionUtils;
 import me.kecker.sudokusolver.dtos.Position;
+import me.kecker.sudokusolver.result.Solution;
+import me.kecker.sudokusolver.utils.SudokuCollectionUtils;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static me.kecker.sudokusolver.test.SolvedAssertion.assertSolved;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PalindromeConstraintTest {
 
@@ -53,8 +51,8 @@ class PalindromeConstraintTest {
                         new Position(7, 7),
                         new Position(7, 8),
                         new Position(8, 8)
-                        )
-                );
+                )
+        );
 
 
         int[][] board = {
@@ -68,13 +66,13 @@ class PalindromeConstraintTest {
                 {0, 6, 0, 0, 0, 8, 0, 0, 0},
                 {3, 0, 0, 0, 2, 0, 0, 0, 6},
         };
-        SolutionSet solve = SudokuSolver.normalSudokuRulesApply()
+        Solution solve = SudokuSolver.normalSudokuRulesApply()
                 .withConstraints(palindromes.stream().map(SudokuCollectionUtils::startingAtOne).map(PalindromeConstraint::new).toList())
                 .withGivenDigitsFromIntArray(board)
                 .peek(SudokuSolver::printBoard)
-                .solve();
+                .solve()
+                .withExactlyOneSolution();
 
-        assertEquals(CpSolverStatus.OPTIMAL, solve.getStatus());
         int[][] solution = {
                 {8, 2, 9, 6, 7, 1, 5, 4, 3},
                 {7, 1, 3, 2, 4, 5, 6, 8, 9},

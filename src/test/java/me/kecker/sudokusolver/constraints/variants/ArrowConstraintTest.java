@@ -1,9 +1,8 @@
 package me.kecker.sudokusolver.constraints.variants;
 
-import com.google.ortools.sat.CpSolverStatus;
-import me.kecker.sudokusolver.result.SolutionSet;
 import me.kecker.sudokusolver.SudokuSolver;
 import me.kecker.sudokusolver.dtos.Position;
+import me.kecker.sudokusolver.result.Solution;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
@@ -11,7 +10,6 @@ import java.util.List;
 
 import static me.kecker.sudokusolver.test.SolvedAssertion.assertSolved;
 import static me.kecker.sudokusolver.utils.SudokuCollectionUtils.startingAtOne;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ArrowConstraintTest {
 
@@ -32,7 +30,8 @@ class ArrowConstraintTest {
                 {0, 0, 0, 7, 5, 0, 0, 0, 0},
                 {0, 0, 0, 0, 6, 2, 0, 0, 0},
         };
-        record Arrow(Position bulb, Collection<Position> shaft) {}
+        record Arrow(Position bulb, Collection<Position> shaft) {
+        }
 
         List<Arrow> arrows = List.of(
                 new Arrow(new Position(1, 1), List.of(
@@ -79,14 +78,13 @@ class ArrowConstraintTest {
                 .map(arrow -> new ArrowConstraint(startingAtOne(arrow.bulb()), startingAtOne(arrow.shaft())))
                 .toList();
 
-        SolutionSet solve = SudokuSolver.normalSudokuRulesApply()
+        Solution solve = SudokuSolver.normalSudokuRulesApply()
                 .withGivenDigitsFromIntArray(board)
                 .withConstraints(arrowConstraints)
                 .peek(SudokuSolver::printBoard)
                 .peek(SudokuSolver::printArrows)
-                .solve();
-
-        assertEquals(CpSolverStatus.OPTIMAL, solve.getStatus());
+                .solve()
+                .withExactlyOneSolution();
 
         int[][] solution = {
                 {9, 3, 1, 2, 8, 4, 7, 5, 6},
