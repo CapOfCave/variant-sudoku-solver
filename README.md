@@ -45,7 +45,7 @@ This library aims toward being able to solve all somewhat popular Sudoku variant
 
 This library offers a fluent API for defining a sudoku ruleset. It offers shortcuts for common constraint configurations while still allowing fine-granular modification for edge-case sudokus.
 
-The constraints can be configured as follows (Shown with "The Miracle" by Mitchell Lee)
+The constraints can be configured as follows (Shown with "The Miracle" by Mitchell Lee):
 
 ```java
 SudokuSolveSolution solve = SudokuSolver.normalSudokuRulesApply()
@@ -57,7 +57,7 @@ SudokuSolveSolution solve = SudokuSolver.normalSudokuRulesApply()
     .solve();
 ```
 
-For Sudokus with more given digits, the board can be provided with a useful shortcut (Shown with "Disjoit Groups Sudoku" by Rajesh Kumar)
+For Sudokus with more given digits, the board can be provided with a useful shortcut (Shown with "Disjoint Groups Sudoku" by Rajesh Kumar):
 
 ```java
 int[][] board = {
@@ -82,7 +82,7 @@ Examples for all implemented constraints can be found in [the test cases](src/te
 
 ## How does it work?
 
-sudoku-solver uses Google OR Tools under the hood, more precisely [CP-SAT](https://developers.google.com/optimization/cp/cp_solver), Google's constraint programming solver.
+Variant Sudoku Solver uses Google OR Tools under the hood, more precisely [CP-SAT](https://developers.google.com/optimization/cp/cp_solver), Google's constraint programming solver.
 
 Constraint Programming (CP) is defined as follows:
 

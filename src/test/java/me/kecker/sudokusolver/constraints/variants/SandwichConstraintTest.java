@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class SandwichConstraintTest {
 
     @Test
-    void testOneSimpleRowSandwichAllIncluded() {
+    void testOneSimpleRowSandwich() {
         SudokuSolveSolution solve = SudokuSolver.fromBoard(new Board(4, 1, 1, 1, 1, 4))
                 .withConstraint(new RowsUniqueConstraint())
                 .withConstraint(new SandwichConstraint(SudokuDirection.ROW, 0, 1, 4, 2))
