@@ -5,6 +5,7 @@ import com.google.ortools.Loader;
 import com.google.ortools.sat.CpModel;
 import com.google.ortools.sat.CpSolver;
 import com.google.ortools.sat.CpSolverStatus;
+import me.kecker.sudokusolver.constraints.SudokuConstraint;
 import me.kecker.sudokusolver.constraints.normal.BoxesUniqueConstraint;
 import me.kecker.sudokusolver.constraints.normal.ColumnsUniqueConstraint;
 import me.kecker.sudokusolver.constraints.normal.GivenDigit;
@@ -16,7 +17,9 @@ import me.kecker.sudokusolver.constraints.variants.LittleKillerConstraint;
 import me.kecker.sudokusolver.constraints.variants.OddConstraint;
 import me.kecker.sudokusolver.constraints.variants.SingleDiagonalConstraint;
 import me.kecker.sudokusolver.constraints.variants.ThermoConstraint;
-import me.kecker.sudokusolver.utils.SudokuPosition;
+import me.kecker.sudokusolver.result.Solution;
+import me.kecker.sudokusolver.utils.DebugVarsHelper;
+import me.kecker.sudokusolver.dtos.Position;
 import me.kecker.sudokusolver.utils.SudokuSolverUtils;
 
 import java.util.ArrayList;
@@ -106,8 +109,8 @@ public class SudokuSolver {
         for (int rowIdx = 0; rowIdx < charBoard.length; rowIdx++) {
             for (int columnIdx = 0; columnIdx < charBoard.length; columnIdx++) {
                 switch (charBoard[rowIdx][columnIdx]) {
-                    case 'e', 'E' -> this.withConstraint(new EvenConstraint(new SudokuPosition(rowIdx, columnIdx)));
-                    case 'o', 'O' -> this.withConstraint(new OddConstraint(new SudokuPosition(rowIdx, columnIdx)));
+                    case 'e', 'E' -> this.withConstraint(new EvenConstraint(new Position(rowIdx, columnIdx)));
+                    case 'o', 'O' -> this.withConstraint(new OddConstraint(new Position(rowIdx, columnIdx)));
                 }
             }
         }
@@ -120,10 +123,10 @@ public class SudokuSolver {
     }
 
     public SudokuSolver withLittleKillerConstraint(int rowIdxStartingAt1, int columnIdxStartingAt1, LittleKillerConstraint.LittleKillerDirection direction, int sum) {
-        return withConstraint(new LittleKillerConstraint(new SudokuPosition(rowIdxStartingAt1 - 1, columnIdxStartingAt1 - 1), direction, sum));
+        return withConstraint(new LittleKillerConstraint(new Position(rowIdxStartingAt1 - 1, columnIdxStartingAt1 - 1), direction, sum));
     }
 
-    public SudokuSolveSolution solve() {
+    public Solution solve() {
         // won't do anything when executed a second time
         Loader.loadNativeLibraries();
 
@@ -137,7 +140,7 @@ public class SudokuSolver {
         solver.getParameters().setEnumerateAllSolutions(true);
         CpSolverStatus status = solver.solve(model, cb);
 
-        return new SudokuSolveSolution(variables, solver, status);
+        return new Solution(variables, solver, status);
     }
 
     public void printBoard() {

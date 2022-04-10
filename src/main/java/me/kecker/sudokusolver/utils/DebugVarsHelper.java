@@ -1,4 +1,4 @@
-package me.kecker.sudokusolver;
+package me.kecker.sudokusolver.utils;
 
 import com.google.ortools.sat.IntVar;
 

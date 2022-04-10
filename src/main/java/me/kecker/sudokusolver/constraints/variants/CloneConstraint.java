@@ -3,19 +3,19 @@ package me.kecker.sudokusolver.constraints.variants;
 import com.google.ortools.sat.CpModel;
 import com.google.ortools.sat.IntVar;
 import me.kecker.sudokusolver.BoardVariables;
-import me.kecker.sudokusolver.SudokuConstraint;
+import me.kecker.sudokusolver.constraints.SudokuConstraint;
 import me.kecker.sudokusolver.exceptions.InvalidConstraintException;
-import me.kecker.sudokusolver.utils.Offset;
-import me.kecker.sudokusolver.utils.SudokuPosition;
+import me.kecker.sudokusolver.dtos.Offset;
+import me.kecker.sudokusolver.dtos.Position;
 
 import java.util.List;
 
 public class CloneConstraint implements SudokuConstraint {
 
-    private final List<SudokuPosition> originalCells;
+    private final List<Position> originalCells;
     private final Offset cloneOffset;
 
-    public CloneConstraint(List<SudokuPosition> originalCells, Offset cloneOffset) {
+    public CloneConstraint(List<Position> originalCells, Offset cloneOffset) {
         this.originalCells = originalCells;
         this.cloneOffset = cloneOffset;
     }
@@ -23,8 +23,8 @@ public class CloneConstraint implements SudokuConstraint {
     @Override
     public void apply(CpModel model, BoardVariables boardVariables) {
 
-        for (SudokuPosition originalPosition : originalCells) {
-            SudokuPosition clonePosition = originalPosition.add(cloneOffset);
+        for (Position originalPosition : originalCells) {
+            Position clonePosition = originalPosition.add(cloneOffset);
 
             if (!boardVariables.isInBounds(originalPosition)) {
                 throw new InvalidConstraintException(String.format("Original cloned cell (r%dc%d) is outside board bounds.", originalPosition.rowIdx(), originalPosition.columnIdx()));

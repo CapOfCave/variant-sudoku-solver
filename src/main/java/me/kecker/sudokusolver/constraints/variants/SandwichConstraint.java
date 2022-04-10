@@ -6,15 +6,14 @@ import com.google.ortools.sat.CpModel;
 import com.google.ortools.sat.IntVar;
 import com.google.ortools.sat.LinearExpr;
 import me.kecker.sudokusolver.BoardVariables;
-import me.kecker.sudokusolver.SudokuConstraint;
-import me.kecker.sudokusolver.utils.SudokuDirection;
+import me.kecker.sudokusolver.constraints.SudokuConstraint;
 
 import java.util.List;
 import java.util.function.IntFunction;
 
 public class SandwichConstraint implements SudokuConstraint {
 
-    private final SudokuDirection direction;
+    private final SandwichDirection direction;
     /**
      * colIdx if direction == COLUMN
      * rowIdx if direction == ROW
@@ -28,7 +27,7 @@ public class SandwichConstraint implements SudokuConstraint {
     private static final long FIELD_IS_SANDWICH_CRUST = 1;
     private static final long FIELD_INSIDE_SANDWICH = 2;
 
-    public SandwichConstraint(SudokuDirection direction, int rowOrColumnIdx, int crust1, int crust2, int value) {
+    public SandwichConstraint(SandwichDirection direction, int rowOrColumnIdx, int crust1, int crust2, int value) {
         this.direction = direction;
         this.rowOrColumnIdx = rowOrColumnIdx;
         this.crust1 = crust1;
@@ -37,11 +36,11 @@ public class SandwichConstraint implements SudokuConstraint {
     }
 
     public static SandwichConstraint forRow(int rowIdxStartingAt1, int value) {
-        return new SandwichConstraint(SudokuDirection.ROW, rowIdxStartingAt1 - 1, 1, 9, value);
+        return new SandwichConstraint(SandwichDirection.ROW, rowIdxStartingAt1 - 1, 1, 9, value);
     }
 
     public static SandwichConstraint forColumn(int columnIdxStartingAt1, int value) {
-        return new SandwichConstraint(SudokuDirection.COLUMN, columnIdxStartingAt1 - 1, 1, 9, value);
+        return new SandwichConstraint(SandwichDirection.COLUMN, columnIdxStartingAt1 - 1, 1, 9, value);
     }
 
     @Override
@@ -209,6 +208,11 @@ public class SandwichConstraint implements SudokuConstraint {
 
     private static void addTransition(AutomatonConstraint constraint, long tail, long head, long label) {
         constraint.getBuilder().getAutomatonBuilder().addTransitionTail(tail).addTransitionLabel(label).addTransitionHead(head);
+    }
+
+    public enum SandwichDirection {
+        ROW,
+        COLUMN
     }
 
 }

@@ -1,10 +1,10 @@
 package me.kecker.sudokusolver.constraints.variants;
 
 import com.google.ortools.sat.CpSolverStatus;
-import me.kecker.sudokusolver.SudokuSolveSolution;
+import me.kecker.sudokusolver.result.Solution;
 import me.kecker.sudokusolver.SudokuSolver;
 import me.kecker.sudokusolver.utils.SudokuCollectionUtils;
-import me.kecker.sudokusolver.utils.SudokuPosition;
+import me.kecker.sudokusolver.dtos.Position;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -20,78 +20,78 @@ class ThermoConstraintTest {
      */
     @Test
     void testThermoSudoku() {
-        List<List<SudokuPosition>> thermos = List.of(
+        List<List<Position>> thermos = List.of(
                 List.of(
-                        new SudokuPosition(4, 4),
-                        new SudokuPosition(4, 3),
-                        new SudokuPosition(4, 2),
-                        new SudokuPosition(4, 1),
-                        new SudokuPosition(3, 1),
-                        new SudokuPosition(2, 1),
-                        new SudokuPosition(1, 1)
+                        new Position(4, 4),
+                        new Position(4, 3),
+                        new Position(4, 2),
+                        new Position(4, 1),
+                        new Position(3, 1),
+                        new Position(2, 1),
+                        new Position(1, 1)
                 ),
                 List.of(
-                        new SudokuPosition(4, 4),
-                        new SudokuPosition(3, 4),
-                        new SudokuPosition(2, 4),
-                        new SudokuPosition(1, 4),
-                        new SudokuPosition(1, 3),
-                        new SudokuPosition(1, 2)
+                        new Position(4, 4),
+                        new Position(3, 4),
+                        new Position(2, 4),
+                        new Position(1, 4),
+                        new Position(1, 3),
+                        new Position(1, 2)
                 ),
                 List.of(
-                        new SudokuPosition(1, 6),
-                        new SudokuPosition(2, 6)
+                        new Position(1, 6),
+                        new Position(2, 6)
                 ),
                 List.of(
-                        new SudokuPosition(1, 7),
-                        new SudokuPosition(1, 8),
-                        new SudokuPosition(2, 8),
-                        new SudokuPosition(3, 8),
-                        new SudokuPosition(3, 7),
-                        new SudokuPosition(3, 6)
+                        new Position(1, 7),
+                        new Position(1, 8),
+                        new Position(2, 8),
+                        new Position(3, 8),
+                        new Position(3, 7),
+                        new Position(3, 6)
                 ),
                 List.of(
-                        new SudokuPosition(8, 1),
-                        new SudokuPosition(7, 1),
-                        new SudokuPosition(6, 1),
-                        new SudokuPosition(6, 2)
+                        new Position(8, 1),
+                        new Position(7, 1),
+                        new Position(6, 1),
+                        new Position(6, 2)
                 ),
                 List.of(
-                        new SudokuPosition(7, 3),
-                        new SudokuPosition(6, 3)
+                        new Position(7, 3),
+                        new Position(6, 3)
                 ),
                 List.of(
-                        new SudokuPosition(8, 2),
-                        new SudokuPosition(8, 3)
+                        new Position(8, 2),
+                        new Position(8, 3)
                 ),
                 List.of(
-                        new SudokuPosition(5, 5),
-                        new SudokuPosition(5, 6),
-                        new SudokuPosition(5, 7),
-                        new SudokuPosition(5, 8),
-                        new SudokuPosition(5, 9)
+                        new Position(5, 5),
+                        new Position(5, 6),
+                        new Position(5, 7),
+                        new Position(5, 8),
+                        new Position(5, 9)
                 ),
                 List.of(
-                        new SudokuPosition(5, 5),
-                        new SudokuPosition(6, 5),
-                        new SudokuPosition(7, 5),
-                        new SudokuPosition(8, 5)
+                        new Position(5, 5),
+                        new Position(6, 5),
+                        new Position(7, 5),
+                        new Position(8, 5)
                 ),
                 List.of(
-                        new SudokuPosition(8, 9),
-                        new SudokuPosition(7, 9),
-                        new SudokuPosition(6, 9)
+                        new Position(8, 9),
+                        new Position(7, 9),
+                        new Position(6, 9)
                 ),
                 List.of(
-                        new SudokuPosition(8, 9),
-                        new SudokuPosition(9, 9),
-                        new SudokuPosition(9, 8),
-                        new SudokuPosition(9, 7),
-                        new SudokuPosition(9, 6),
-                        new SudokuPosition(9, 5)
+                        new Position(8, 9),
+                        new Position(9, 9),
+                        new Position(9, 8),
+                        new Position(9, 7),
+                        new Position(9, 6),
+                        new Position(9, 5)
                 )
         );
-        SudokuSolveSolution solve = SudokuSolver.normalSudokuRulesApply()
+        Solution solve = SudokuSolver.normalSudokuRulesApply()
                 .withConstraints(thermos.stream().map(SudokuCollectionUtils::startingAtOne).map(ThermoConstraint::new).toList())
                 .peek(SudokuSolver::printThermos)
                 .solve();

@@ -4,8 +4,8 @@ import com.google.ortools.sat.CpModel;
 import com.google.ortools.sat.IntVar;
 import com.google.ortools.sat.LinearExpr;
 import me.kecker.sudokusolver.BoardVariables;
-import me.kecker.sudokusolver.SudokuConstraint;
-import me.kecker.sudokusolver.utils.Offset;
+import me.kecker.sudokusolver.constraints.SudokuConstraint;
+import me.kecker.sudokusolver.dtos.Offset;
 
 import java.util.Collection;
 import java.util.List;

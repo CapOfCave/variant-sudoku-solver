@@ -3,7 +3,7 @@ package me.kecker.sudokusolver.constraints.variants;
 import com.google.ortools.sat.CpModel;
 import com.google.ortools.sat.IntVar;
 import me.kecker.sudokusolver.BoardVariables;
-import me.kecker.sudokusolver.SudokuConstraint;
+import me.kecker.sudokusolver.constraints.SudokuConstraint;
 
 import java.util.stream.IntStream;
 

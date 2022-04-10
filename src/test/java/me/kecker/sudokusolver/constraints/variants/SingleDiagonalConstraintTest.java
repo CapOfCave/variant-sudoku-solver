@@ -1,7 +1,7 @@
 package me.kecker.sudokusolver.constraints.variants;
 
 import com.google.ortools.sat.CpSolverStatus;
-import me.kecker.sudokusolver.SudokuSolveSolution;
+import me.kecker.sudokusolver.result.Solution;
 import me.kecker.sudokusolver.SudokuSolver;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +26,7 @@ class SingleDiagonalConstraintTest {
                 {0, 0, 7, 8, 9, 0, 0, 0, 5},
                 {0, 0, 0, 0, 0, 0, 0, 0, 0},
         };
-        SudokuSolveSolution solve = SudokuSolver.normalSudokuRulesApply()
+        Solution solve = SudokuSolver.normalSudokuRulesApply()
                 .withNonRepeatingMainDiagonals()
                 .withGivenDigitsFromIntArray(board)
                 .peek(SudokuSolver::printBoard)

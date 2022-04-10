@@ -1,7 +1,7 @@
 package me.kecker.sudokusolver.constraints.variants;
 
 import com.google.ortools.sat.CpSolverStatus;
-import me.kecker.sudokusolver.SudokuSolveSolution;
+import me.kecker.sudokusolver.result.Solution;
 import me.kecker.sudokusolver.SudokuSolver;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +16,7 @@ class KingSudokuConstraintTest {
      */
     @Test
     void testKingSudoku() {
-        SudokuSolveSolution solve = SudokuSolver.normalSudokuRulesApply()
+        Solution solve = SudokuSolver.normalSudokuRulesApply()
                 .withConstraint(new KingSudokuConstraint())
                 .withGivenDigit(1, 1, 9)
                 .withGivenDigit(1, 9, 5)

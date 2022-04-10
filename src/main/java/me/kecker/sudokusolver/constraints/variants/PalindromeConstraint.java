@@ -3,17 +3,17 @@ package me.kecker.sudokusolver.constraints.variants;
 import com.google.ortools.sat.CpModel;
 import com.google.ortools.sat.IntVar;
 import me.kecker.sudokusolver.BoardVariables;
-import me.kecker.sudokusolver.SudokuConstraint;
-import me.kecker.sudokusolver.utils.SudokuPosition;
+import me.kecker.sudokusolver.constraints.SudokuConstraint;
+import me.kecker.sudokusolver.dtos.Position;
 
 import java.util.List;
 
 public class PalindromeConstraint implements SudokuConstraint {
 
 
-    private final List<SudokuPosition> palindromeCells;
+    private final List<Position> palindromeCells;
 
-    public PalindromeConstraint(List<SudokuPosition> palindromeCells) {
+    public PalindromeConstraint(List<Position> palindromeCells) {
         this.palindromeCells = palindromeCells;
     }
 
@@ -29,8 +29,8 @@ public class PalindromeConstraint implements SudokuConstraint {
         //   example: size = 5  =>  i in {0, 1}  =>  i < (5 - 1) / 2
         // due to integer division, (size - 1) / 2 = (int)(size / 2)
         for (int i = 0; i < palindromeCells.size() / 2; i++) {
-            SudokuPosition positionFromStart = palindromeCells.get(i);
-            SudokuPosition positionFromEnd = palindromeCells.get(palindromeCells.size() - 1 - i);
+            Position positionFromStart = palindromeCells.get(i);
+            Position positionFromEnd = palindromeCells.get(palindromeCells.size() - 1 - i);
             IntVar fromStart = boardVariables.get(positionFromStart);
             IntVar fromEnd = boardVariables.get(positionFromEnd);
             model.addEquality(fromStart, fromEnd);

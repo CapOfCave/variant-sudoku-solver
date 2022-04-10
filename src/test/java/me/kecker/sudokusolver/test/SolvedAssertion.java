@@ -1,11 +1,11 @@
 package me.kecker.sudokusolver.test;
 
-import me.kecker.sudokusolver.SudokuSolveSolution;
+import me.kecker.sudokusolver.result.Solution;
 import org.assertj.core.api.SoftAssertions;
 
 public class SolvedAssertion {
 
-    public static void assertSolved(SudokuSolveSolution solve, int[][] solution) {
+    public static void assertSolved(Solution solve, int[][] solution) {
         SoftAssertions softAssertions = new SoftAssertions();
         for (int rowIdx = 0; rowIdx < solution.length; rowIdx++){
             for (int columnIdx = 0; columnIdx < solution[rowIdx].length; columnIdx++){

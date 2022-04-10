@@ -1,7 +1,7 @@
 package me.kecker.sudokusolver.constraints.variants;
 
 import com.google.ortools.sat.CpSolverStatus;
-import me.kecker.sudokusolver.SudokuSolveSolution;
+import me.kecker.sudokusolver.result.Solution;
 import me.kecker.sudokusolver.SudokuSolver;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +19,7 @@ class LittleKillerConstraintTest {
      */
     @Test
     void testLittleKillerSudoku() {
-        SudokuSolveSolution solve = SudokuSolver.normalSudokuRulesApply()
+        Solution solve = SudokuSolver.normalSudokuRulesApply()
                 .withLittleKillerConstraint(2, 1, DOWN_RIGHT, 41)
                 .withLittleKillerConstraint(6, 1, DOWN_RIGHT, 19)
                 .withLittleKillerConstraint(7, 1, DOWN_RIGHT, 19)

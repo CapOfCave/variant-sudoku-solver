@@ -4,17 +4,17 @@ import com.google.ortools.sat.CpModel;
 import com.google.ortools.sat.IntVar;
 import com.google.ortools.sat.LinearExpr;
 import me.kecker.sudokusolver.BoardVariables;
-import me.kecker.sudokusolver.SudokuConstraint;
-import me.kecker.sudokusolver.utils.SudokuPosition;
+import me.kecker.sudokusolver.constraints.SudokuConstraint;
+import me.kecker.sudokusolver.dtos.Position;
 
 import java.util.Collection;
 
 public class ArrowConstraint implements SudokuConstraint {
 
-    private final SudokuPosition bulbPosition;
-    private final Collection<SudokuPosition> shaftPositions;
+    private final Position bulbPosition;
+    private final Collection<Position> shaftPositions;
 
-    public ArrowConstraint(SudokuPosition bulbPosition, Collection<SudokuPosition> shaftPositions) {
+    public ArrowConstraint(Position bulbPosition, Collection<Position> shaftPositions) {
         this.bulbPosition = bulbPosition;
         this.shaftPositions = shaftPositions;
     }
@@ -27,11 +27,11 @@ public class ArrowConstraint implements SudokuConstraint {
         model.addEquality(LinearExpr.sum(shaft), bulb);
     }
 
-    public SudokuPosition getBulbPosition() {
+    public Position getBulbPosition() {
         return bulbPosition;
     }
 
-    public Collection<SudokuPosition> getShaftPositions() {
+    public Collection<Position> getShaftPositions() {
         return shaftPositions;
     }
 }

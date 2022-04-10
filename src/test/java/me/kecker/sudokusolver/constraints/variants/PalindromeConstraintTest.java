@@ -1,10 +1,10 @@
 package me.kecker.sudokusolver.constraints.variants;
 
 import com.google.ortools.sat.CpSolverStatus;
-import me.kecker.sudokusolver.SudokuSolveSolution;
+import me.kecker.sudokusolver.result.Solution;
 import me.kecker.sudokusolver.SudokuSolver;
 import me.kecker.sudokusolver.utils.SudokuCollectionUtils;
-import me.kecker.sudokusolver.utils.SudokuPosition;
+import me.kecker.sudokusolver.dtos.Position;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -21,38 +21,38 @@ class PalindromeConstraintTest {
     @Test
     void testPalindromeSudoku() {
 
-        List<List<SudokuPosition>> palindromes = List.of(
+        List<List<Position>> palindromes = List.of(
                 List.of(
-                        new SudokuPosition(1, 2),
-                        new SudokuPosition(2, 2),
-                        new SudokuPosition(2, 3),
-                        new SudokuPosition(3, 3),
-                        new SudokuPosition(4, 3),
-                        new SudokuPosition(4, 2),
-                        new SudokuPosition(5, 2),
-                        new SudokuPosition(5, 1),
-                        new SudokuPosition(6, 1)
+                        new Position(1, 2),
+                        new Position(2, 2),
+                        new Position(2, 3),
+                        new Position(3, 3),
+                        new Position(4, 3),
+                        new Position(4, 2),
+                        new Position(5, 2),
+                        new Position(5, 1),
+                        new Position(6, 1)
                 ),
                 List.of(
-                        new SudokuPosition(2, 5),
-                        new SudokuPosition(2, 6),
-                        new SudokuPosition(1, 6),
-                        new SudokuPosition(1, 7),
-                        new SudokuPosition(1, 8)
+                        new Position(2, 5),
+                        new Position(2, 6),
+                        new Position(1, 6),
+                        new Position(1, 7),
+                        new Position(1, 8)
                 ),
                 List.of(
-                        new SudokuPosition(7, 4),
-                        new SudokuPosition(8, 4),
-                        new SudokuPosition(9, 4),
-                        new SudokuPosition(9, 3),
-                        new SudokuPosition(9, 2)
+                        new Position(7, 4),
+                        new Position(8, 4),
+                        new Position(9, 4),
+                        new Position(9, 3),
+                        new Position(9, 2)
                 ),
                 List.of(
-                        new SudokuPosition(6, 6),
-                        new SudokuPosition(6, 7),
-                        new SudokuPosition(7, 7),
-                        new SudokuPosition(7, 8),
-                        new SudokuPosition(8, 8)
+                        new Position(6, 6),
+                        new Position(6, 7),
+                        new Position(7, 7),
+                        new Position(7, 8),
+                        new Position(8, 8)
                         )
                 );
 
@@ -68,7 +68,7 @@ class PalindromeConstraintTest {
                 {0, 6, 0, 0, 0, 8, 0, 0, 0},
                 {3, 0, 0, 0, 2, 0, 0, 0, 6},
         };
-        SudokuSolveSolution solve = SudokuSolver.normalSudokuRulesApply()
+        Solution solve = SudokuSolver.normalSudokuRulesApply()
                 .withConstraints(palindromes.stream().map(SudokuCollectionUtils::startingAtOne).map(PalindromeConstraint::new).toList())
                 .withGivenDigitsFromIntArray(board)
                 .peek(SudokuSolver::printBoard)

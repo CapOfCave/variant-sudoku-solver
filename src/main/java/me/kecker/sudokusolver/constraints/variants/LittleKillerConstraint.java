@@ -4,21 +4,21 @@ import com.google.ortools.sat.CpModel;
 import com.google.ortools.sat.IntVar;
 import com.google.ortools.sat.LinearExpr;
 import me.kecker.sudokusolver.BoardVariables;
-import me.kecker.sudokusolver.SudokuConstraint;
+import me.kecker.sudokusolver.constraints.SudokuConstraint;
 import me.kecker.sudokusolver.exceptions.InvalidConstraintException;
-import me.kecker.sudokusolver.utils.Offset;
-import me.kecker.sudokusolver.utils.SudokuPosition;
+import me.kecker.sudokusolver.dtos.Offset;
+import me.kecker.sudokusolver.dtos.Position;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LittleKillerConstraint implements SudokuConstraint {
 
-    private final SudokuPosition start;
+    private final Position start;
     private final LittleKillerDirection direction;
     private final int sum;
 
-    public LittleKillerConstraint(SudokuPosition start, LittleKillerDirection direction, int sum) {
+    public LittleKillerConstraint(Position start, LittleKillerDirection direction, int sum) {
         this.start = start;
         this.direction = direction;
         this.sum = sum;
@@ -38,7 +38,7 @@ public class LittleKillerConstraint implements SudokuConstraint {
             throw new InvalidConstraintException(String.format("Constraint must be inside the board, but was not for start %s and direction %s [sum=%d]", start, direction, sum));
         }
         // ... or if not on the edge
-        SudokuPosition previous = start.subtract(direction.offset);
+        Position previous = start.subtract(direction.offset);
         if (boardVariables.isInBounds(previous)) {
             throw new InvalidConstraintException(String.format("Constraint must be on the edge, but was not for start %s and direction %s [sum=%d]", start, direction, sum));
         }
@@ -46,7 +46,7 @@ public class LittleKillerConstraint implements SudokuConstraint {
 
     private IntVar[] generateAffectedCells(BoardVariables boardVariables) {
         List<IntVar> affectedCells = new ArrayList<>();
-        SudokuPosition current = start;
+        Position current = start;
         while(boardVariables.isInBounds(current)) {
             affectedCells.add(boardVariables.get(current));
             current = current.add(direction.offset);

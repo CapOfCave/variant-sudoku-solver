@@ -2,7 +2,7 @@ package me.kecker.sudokusolver;
 
 import com.google.ortools.sat.IntVar;
 import me.kecker.sudokusolver.utils.HelperVarManager;
-import me.kecker.sudokusolver.utils.SudokuPosition;
+import me.kecker.sudokusolver.dtos.Position;
 
 public class BoardVariables {
 
@@ -60,7 +60,7 @@ public class BoardVariables {
         return variables[rowIdx][columnIdx];
     }
 
-    public IntVar get(SudokuPosition position) {
+    public IntVar get(Position position) {
         return get(position.rowIdx(), position.columnIdx());
     }
 
@@ -84,7 +84,7 @@ public class BoardVariables {
         return rowIdx >= 0 && rowIdx < getRowCount() && columnIdx >= 0 && columnIdx < getColumnCount();
     }
 
-    public boolean isInBounds(SudokuPosition position) {
+    public boolean isInBounds(Position position) {
         return isInBounds(position.rowIdx(), position.columnIdx());
     }
 

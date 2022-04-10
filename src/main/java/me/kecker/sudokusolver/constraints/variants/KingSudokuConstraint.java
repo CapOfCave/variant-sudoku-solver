@@ -1,7 +1,7 @@
 package me.kecker.sudokusolver.constraints.variants;
 
 import me.kecker.sudokusolver.constraints.base.RelativeSeenCellConstraint;
-import me.kecker.sudokusolver.utils.Offset;
+import me.kecker.sudokusolver.dtos.Offset;
 
 import java.util.Collection;
 import java.util.stream.IntStream;

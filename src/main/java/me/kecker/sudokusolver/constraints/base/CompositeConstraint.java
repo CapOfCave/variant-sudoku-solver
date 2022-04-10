@@ -2,7 +2,7 @@ package me.kecker.sudokusolver.constraints.base;
 
 import com.google.ortools.sat.CpModel;
 import me.kecker.sudokusolver.BoardVariables;
-import me.kecker.sudokusolver.SudokuConstraint;
+import me.kecker.sudokusolver.constraints.SudokuConstraint;
 
 import java.util.Collection;
 

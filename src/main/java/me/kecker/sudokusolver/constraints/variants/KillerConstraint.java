@@ -3,8 +3,8 @@ package me.kecker.sudokusolver.constraints.variants;
 import me.kecker.sudokusolver.constraints.base.CompositeConstraint;
 import me.kecker.sudokusolver.constraints.base.FixedSumConstraint;
 import me.kecker.sudokusolver.constraints.base.UniqueConstraint;
-import me.kecker.sudokusolver.utils.SudokuPosition;
-import me.kecker.sudokusolver.utils.SudokuRect;
+import me.kecker.sudokusolver.dtos.Position;
+import me.kecker.sudokusolver.dtos.Rect;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,10 +12,10 @@ import java.util.List;
 
 public class KillerConstraint extends CompositeConstraint {
 
-    private final Collection<SudokuPosition> affectedCells;
+    private final Collection<Position> affectedCells;
     private final int total;
 
-    public KillerConstraint(Collection<SudokuPosition> affectedCells, int total) {
+    public KillerConstraint(Collection<Position> affectedCells, int total) {
         super(List.of(
                 new FixedSumConstraint(affectedCells, total),
                 new UniqueConstraint(affectedCells)));
@@ -24,23 +24,23 @@ public class KillerConstraint extends CompositeConstraint {
         this.total = total;
     }
 
-    public static KillerConstraint rectangularCage(SudokuRect boundsIdxStartingAtOne, int total) {
+    public static KillerConstraint rectangularCage(Rect boundsIdxStartingAtOne, int total) {
         int topLeftColumnIdx = boundsIdxStartingAtOne.topLeftColumnIdx() - 1;
         int topLeftRowIdx = boundsIdxStartingAtOne.topLeftRowIdx() - 1;
         int bottomRightColumnIdx = boundsIdxStartingAtOne.bottomRightColumnIdx() - 1;
         int bottomRightRowIdx = boundsIdxStartingAtOne.bottomRightRowIdx() - 1;
 
-        Collection<SudokuPosition> affectedCells = new ArrayList<>();
+        Collection<Position> affectedCells = new ArrayList<>();
         for (int columnIdx = topLeftColumnIdx; columnIdx <= bottomRightColumnIdx; columnIdx++) {
             for (int rowIdx = topLeftRowIdx; rowIdx <= bottomRightRowIdx; rowIdx++) {
-                affectedCells.add(new SudokuPosition(rowIdx, columnIdx));
+                affectedCells.add(new Position(rowIdx, columnIdx));
             }
         }
         return new KillerConstraint(affectedCells, total);
 
     }
 
-    public Collection<SudokuPosition> getAffectedCells() {
+    public Collection<Position> getAffectedCells() {
         return affectedCells;
     }
 

@@ -1,4 +1,4 @@
-package me.kecker.sudokusolver.utils;
+package me.kecker.sudokusolver.dtos;
 
 public record Offset(int rowDif, int columnDif) {
 }

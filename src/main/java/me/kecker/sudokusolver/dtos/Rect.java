@@ -1,9 +1,8 @@
-package me.kecker.sudokusolver.utils;
+package me.kecker.sudokusolver.dtos;
 
-public record SudokuRect(
+public record Rect(
         int topLeftColumnIdx,
         int topLeftRowIdx,
         int bottomRightColumnIdx,
         int bottomRightRowIdx) {
-
 }

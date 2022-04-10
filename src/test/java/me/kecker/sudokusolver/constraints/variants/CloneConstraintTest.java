@@ -1,10 +1,10 @@
 package me.kecker.sudokusolver.constraints.variants;
 
 import com.google.ortools.sat.CpSolverStatus;
-import me.kecker.sudokusolver.SudokuSolveSolution;
+import me.kecker.sudokusolver.result.Solution;
 import me.kecker.sudokusolver.SudokuSolver;
-import me.kecker.sudokusolver.utils.Offset;
-import me.kecker.sudokusolver.utils.SudokuPosition;
+import me.kecker.sudokusolver.dtos.Offset;
+import me.kecker.sudokusolver.dtos.Position;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -32,22 +32,22 @@ class CloneConstraintTest {
                 {4, 0, 1, 0, 0, 0, 0, 0, 0},
                 {0, 3, 0, 0, 4, 0, 0, 0, 0},
         };
-        SudokuSolveSolution solve = SudokuSolver.normalSudokuRulesApply()
+        Solution solve = SudokuSolver.normalSudokuRulesApply()
                 .withGivenDigitsFromIntArray(board)
                 .withConstraint(new CloneConstraint(startingAtOne(List.of(
-                        new SudokuPosition(1, 1),
-                        new SudokuPosition(1, 2),
-                        new SudokuPosition(1, 3),
-                        new SudokuPosition(1, 4),
-                        new SudokuPosition(2, 1),
-                        new SudokuPosition(3, 1),
-                        new SudokuPosition(3, 2),
-                        new SudokuPosition(3, 3),
-                        new SudokuPosition(4, 1),
-                        new SudokuPosition(5, 1),
-                        new SudokuPosition(5, 2),
-                        new SudokuPosition(5, 3),
-                        new SudokuPosition(5, 4)
+                        new Position(1, 1),
+                        new Position(1, 2),
+                        new Position(1, 3),
+                        new Position(1, 4),
+                        new Position(2, 1),
+                        new Position(3, 1),
+                        new Position(3, 2),
+                        new Position(3, 3),
+                        new Position(4, 1),
+                        new Position(5, 1),
+                        new Position(5, 2),
+                        new Position(5, 3),
+                        new Position(5, 4)
                 )), new Offset(4, 5)))
                 .peek(SudokuSolver::printBoard)
                 .solve();

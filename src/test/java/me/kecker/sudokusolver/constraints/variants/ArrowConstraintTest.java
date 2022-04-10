@@ -1,10 +1,9 @@
 package me.kecker.sudokusolver.constraints.variants;
 
 import com.google.ortools.sat.CpSolverStatus;
-import me.kecker.sudokusolver.SudokuSolveSolution;
+import me.kecker.sudokusolver.result.Solution;
 import me.kecker.sudokusolver.SudokuSolver;
-import me.kecker.sudokusolver.utils.Offset;
-import me.kecker.sudokusolver.utils.SudokuPosition;
+import me.kecker.sudokusolver.dtos.Position;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
@@ -33,54 +32,54 @@ class ArrowConstraintTest {
                 {0, 0, 0, 7, 5, 0, 0, 0, 0},
                 {0, 0, 0, 0, 6, 2, 0, 0, 0},
         };
-        record Arrow(SudokuPosition bulb, Collection<SudokuPosition> shaft) {}
+        record Arrow(Position bulb, Collection<Position> shaft) {}
 
         List<Arrow> arrows = List.of(
-                new Arrow(new SudokuPosition(1, 1), List.of(
-                        new SudokuPosition(2, 1), new SudokuPosition(3, 1)
+                new Arrow(new Position(1, 1), List.of(
+                        new Position(2, 1), new Position(3, 1)
                 )),
-                new Arrow(new SudokuPosition(1, 2), List.of(
-                        new SudokuPosition(1, 3), new SudokuPosition(1, 4)
+                new Arrow(new Position(1, 2), List.of(
+                        new Position(1, 3), new Position(1, 4)
                 )),
-                new Arrow(new SudokuPosition(4, 2), List.of(
-                        new SudokuPosition(3, 2), new SudokuPosition(2, 2)
+                new Arrow(new Position(4, 2), List.of(
+                        new Position(3, 2), new Position(2, 2)
                 )),
-                new Arrow(new SudokuPosition(2, 5), List.of(
-                        new SudokuPosition(2, 4), new SudokuPosition(2, 3)
+                new Arrow(new Position(2, 5), List.of(
+                        new Position(2, 4), new Position(2, 3)
                 )),
-                new Arrow(new SudokuPosition(3, 3), List.of(
-                        new SudokuPosition(4, 3), new SudokuPosition(5, 3)
+                new Arrow(new Position(3, 3), List.of(
+                        new Position(4, 3), new Position(5, 3)
                 )),
-                new Arrow(new SudokuPosition(3, 4), List.of(
-                        new SudokuPosition(3, 5), new SudokuPosition(3, 6)
+                new Arrow(new Position(3, 4), List.of(
+                        new Position(3, 5), new Position(3, 6)
                 )),
-                new Arrow(new SudokuPosition(6, 4), List.of(
-                        new SudokuPosition(5, 4), new SudokuPosition(4, 4)
+                new Arrow(new Position(6, 4), List.of(
+                        new Position(5, 4), new Position(4, 4)
                 )),
-                new Arrow(new SudokuPosition(4, 7), List.of(
-                        new SudokuPosition(4, 6), new SudokuPosition(4, 5)
+                new Arrow(new Position(4, 7), List.of(
+                        new Position(4, 6), new Position(4, 5)
                 )),
-                new Arrow(new SudokuPosition(5, 5), List.of(
-                        new SudokuPosition(6, 5), new SudokuPosition(7, 5)
+                new Arrow(new Position(5, 5), List.of(
+                        new Position(6, 5), new Position(7, 5)
                 )),
-                new Arrow(new SudokuPosition(5, 6), List.of(
-                        new SudokuPosition(5, 7), new SudokuPosition(5, 8)
+                new Arrow(new Position(5, 6), List.of(
+                        new Position(5, 7), new Position(5, 8)
                 )),
-                new Arrow(new SudokuPosition(8, 6), List.of(
-                        new SudokuPosition(7, 6), new SudokuPosition(6, 6)
+                new Arrow(new Position(8, 6), List.of(
+                        new Position(7, 6), new Position(6, 6)
                 )),
-                new Arrow(new SudokuPosition(6, 9), List.of(
-                        new SudokuPosition(6, 8), new SudokuPosition(6, 7)
+                new Arrow(new Position(6, 9), List.of(
+                        new Position(6, 8), new Position(6, 7)
                 )),
-                new Arrow(new SudokuPosition(7, 7), List.of(
-                        new SudokuPosition(8, 7), new SudokuPosition(9, 7)
+                new Arrow(new Position(7, 7), List.of(
+                        new Position(8, 7), new Position(9, 7)
                 ))
         );
         List<ArrowConstraint> arrowConstraints = arrows.stream()
                 .map(arrow -> new ArrowConstraint(startingAtOne(arrow.bulb()), startingAtOne(arrow.shaft())))
                 .toList();
 
-        SudokuSolveSolution solve = SudokuSolver.normalSudokuRulesApply()
+        Solution solve = SudokuSolver.normalSudokuRulesApply()
                 .withGivenDigitsFromIntArray(board)
                 .withConstraints(arrowConstraints)
                 .peek(SudokuSolver::printBoard)

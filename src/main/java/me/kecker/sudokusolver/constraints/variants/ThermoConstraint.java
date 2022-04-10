@@ -3,8 +3,8 @@ package me.kecker.sudokusolver.constraints.variants;
 import com.google.ortools.sat.CpModel;
 import com.google.ortools.sat.IntVar;
 import me.kecker.sudokusolver.BoardVariables;
-import me.kecker.sudokusolver.SudokuConstraint;
-import me.kecker.sudokusolver.utils.SudokuPosition;
+import me.kecker.sudokusolver.constraints.SudokuConstraint;
+import me.kecker.sudokusolver.dtos.Position;
 
 import java.util.List;
 
@@ -13,9 +13,9 @@ public class ThermoConstraint implements SudokuConstraint {
     /**
      * Thermo cells in strictly increasing order
      */
-    private final List<SudokuPosition> thermoCells;
+    private final List<Position> thermoCells;
 
-    public ThermoConstraint(List<SudokuPosition> thermoCells) {
+    public ThermoConstraint(List<Position> thermoCells) {
         this.thermoCells = thermoCells;
     }
 
@@ -31,7 +31,7 @@ public class ThermoConstraint implements SudokuConstraint {
         }
     }
 
-    public List<SudokuPosition> getThermoCells() {
+    public List<Position> getThermoCells() {
         return thermoCells;
     }
 }

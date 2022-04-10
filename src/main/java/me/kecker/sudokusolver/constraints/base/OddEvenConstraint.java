@@ -4,15 +4,15 @@ import com.google.ortools.sat.CpModel;
 import com.google.ortools.sat.IntVar;
 import com.google.ortools.sat.LinearArgument;
 import me.kecker.sudokusolver.BoardVariables;
-import me.kecker.sudokusolver.SudokuConstraint;
-import me.kecker.sudokusolver.utils.SudokuPosition;
+import me.kecker.sudokusolver.constraints.SudokuConstraint;
+import me.kecker.sudokusolver.dtos.Position;
 
 public class OddEvenConstraint implements SudokuConstraint {
 
-    private final SudokuPosition position;
+    private final Position position;
     private final Parity parity;
 
-    public OddEvenConstraint(SudokuPosition position, Parity parity) {
+    public OddEvenConstraint(Position position, Parity parity) {
         this.position = position;
         this.parity = parity;
     }

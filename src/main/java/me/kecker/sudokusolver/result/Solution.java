@@ -1,15 +1,16 @@
-package me.kecker.sudokusolver;
+package me.kecker.sudokusolver.result;
 
 import com.google.ortools.sat.CpSolver;
 import com.google.ortools.sat.CpSolverStatus;
+import me.kecker.sudokusolver.BoardVariables;
 import me.kecker.sudokusolver.utils.SudokuSolverUtils;
 
-public class SudokuSolveSolution {
+public class Solution {
     private final BoardVariables variables;
     private final CpSolver solver;
     private final CpSolverStatus status;
 
-    public SudokuSolveSolution(BoardVariables variables, CpSolver solver, CpSolverStatus status) {
+    public Solution(BoardVariables variables, CpSolver solver, CpSolverStatus status) {
         this.variables = variables;
         this.solver = solver;
         this.status = status;

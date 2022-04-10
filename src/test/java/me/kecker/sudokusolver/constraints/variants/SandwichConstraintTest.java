@@ -2,12 +2,11 @@ package me.kecker.sudokusolver.constraints.variants;
 
 import com.google.ortools.sat.CpSolverStatus;
 import me.kecker.sudokusolver.Board;
-import me.kecker.sudokusolver.SudokuSolveSolution;
 import me.kecker.sudokusolver.SudokuSolver;
 import me.kecker.sudokusolver.constraints.normal.RowsUniqueConstraint;
-import me.kecker.sudokusolver.utils.SudokuDirection;
-import me.kecker.sudokusolver.utils.SudokuPosition;
-import me.kecker.sudokusolver.utils.SudokuRect;
+import me.kecker.sudokusolver.dtos.Position;
+import me.kecker.sudokusolver.dtos.Rect;
+import me.kecker.sudokusolver.result.Solution;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -21,9 +20,9 @@ class SandwichConstraintTest {
 
     @Test
     void testOneSimpleRowSandwich() {
-        SudokuSolveSolution solve = SudokuSolver.fromBoard(new Board(4, 1, 1, 1, 1, 4))
+        Solution solve = SudokuSolver.fromBoard(new Board(4, 1, 1, 1, 1, 4))
                 .withConstraint(new RowsUniqueConstraint())
-                .withConstraint(new SandwichConstraint(SudokuDirection.ROW, 0, 1, 4, 2))
+                .withConstraint(new SandwichConstraint(SandwichConstraint.SandwichDirection.ROW, 0, 1, 4, 2))
                 .withGivenDigit(1, 2, 1)
                 .solve();
         assertEquals(CpSolverStatus.OPTIMAL, solve.getStatus());
@@ -50,7 +49,7 @@ class SandwichConstraintTest {
                 .mapToObj(columnIdx -> SandwichConstraint.forColumn(columnIdx + 1, columnsSandwichClues[columnIdx]))
                 .toList();
 
-        SudokuSolveSolution solve = SudokuSolver.normalSudokuRulesApply()
+        Solution solve = SudokuSolver.normalSudokuRulesApply()
                 .withConstraints(rowConstraints)
                 .withConstraints(columnConstraints)
                 .withGivenDigit(1, 9, 1)
@@ -82,14 +81,14 @@ class SandwichConstraintTest {
         int[] columnsSandwichClues = {26, 22, 11, 3, 2, 8, 18, 6, 12};
 
         List<SandwichConstraint> rowConstraints = IntStream.range(0, rowSandwichClues.length)
-                .mapToObj(rowIdx -> new SandwichConstraint(SudokuDirection.ROW, rowIdx, 4, 6, rowSandwichClues[rowIdx]))
+                .mapToObj(rowIdx -> new SandwichConstraint(SandwichConstraint.SandwichDirection.ROW, rowIdx, 4, 6, rowSandwichClues[rowIdx]))
                 .toList();
 
         List<SandwichConstraint> columnConstraints = IntStream.range(0, columnsSandwichClues.length)
-                .mapToObj(columnIdx -> new SandwichConstraint(SudokuDirection.COLUMN, columnIdx, 4, 6, columnsSandwichClues[columnIdx]))
+                .mapToObj(columnIdx -> new SandwichConstraint(SandwichConstraint.SandwichDirection.COLUMN, columnIdx, 4, 6, columnsSandwichClues[columnIdx]))
                 .toList();
 
-        SudokuSolveSolution solve = SudokuSolver.normalSudokuRulesApply()
+        Solution solve = SudokuSolver.normalSudokuRulesApply()
                 .withConstraints(rowConstraints)
                 .withConstraints(columnConstraints)
                 .withGivenDigit(8, 4, 1)
@@ -118,12 +117,12 @@ class SandwichConstraintTest {
     void testSandwichKillerSudoku() {
 
         var killer15 = new KillerConstraint(startingAtOne(List.of(
-                new SudokuPosition(4, 8),
-                new SudokuPosition(5, 8),
-                new SudokuPosition(5, 7)
+                new Position(4, 8),
+                new Position(5, 8),
+                new Position(5, 7)
         )), 15);
 
-        SudokuSolveSolution solve = SudokuSolver.normalSudokuRulesApply()
+        Solution solve = SudokuSolver.normalSudokuRulesApply()
                 .withConstraint(SandwichConstraint.forRow(1, 0))
                 .withConstraint(SandwichConstraint.forRow(4, 8))
                 .withConstraint(SandwichConstraint.forRow(5, 17))
@@ -134,15 +133,15 @@ class SandwichConstraintTest {
                 .withConstraint(SandwichConstraint.forColumn(6, 8))
                 .withConstraint(SandwichConstraint.forColumn(8, 32))
                 .withConstraint(SandwichConstraint.forColumn(9, 33))
-                .withConstraint(KillerConstraint.rectangularCage(new SudokuRect(3, 1, 4, 1), 11))
-                .withConstraint(KillerConstraint.rectangularCage(new SudokuRect(7, 2, 8, 2), 9))
-                .withConstraint(KillerConstraint.rectangularCage(new SudokuRect(1, 4, 2, 4), 7))
-                .withConstraint(KillerConstraint.rectangularCage(new SudokuRect(2, 6, 2, 8), 14))
-                .withConstraint(KillerConstraint.rectangularCage(new SudokuRect(8, 6, 9, 6), 6))
-                .withConstraint(KillerConstraint.rectangularCage(new SudokuRect(3, 7, 3, 9), 21))
-                .withConstraint(KillerConstraint.rectangularCage(new SudokuRect(6, 8, 6, 9), 13))
-                .withConstraint(KillerConstraint.rectangularCage(new SudokuRect(8, 8, 9, 8), 10))
-                .withConstraint(KillerConstraint.rectangularCage(new SudokuRect(8, 9, 9, 9), 10))
+                .withConstraint(KillerConstraint.rectangularCage(new Rect(3, 1, 4, 1), 11))
+                .withConstraint(KillerConstraint.rectangularCage(new Rect(7, 2, 8, 2), 9))
+                .withConstraint(KillerConstraint.rectangularCage(new Rect(1, 4, 2, 4), 7))
+                .withConstraint(KillerConstraint.rectangularCage(new Rect(2, 6, 2, 8), 14))
+                .withConstraint(KillerConstraint.rectangularCage(new Rect(8, 6, 9, 6), 6))
+                .withConstraint(KillerConstraint.rectangularCage(new Rect(3, 7, 3, 9), 21))
+                .withConstraint(KillerConstraint.rectangularCage(new Rect(6, 8, 6, 9), 13))
+                .withConstraint(KillerConstraint.rectangularCage(new Rect(8, 8, 9, 8), 10))
+                .withConstraint(KillerConstraint.rectangularCage(new Rect(8, 9, 9, 9), 10))
                 .withConstraint(killer15)
                 .peek(SudokuSolver::printKillers)
                 .solve();

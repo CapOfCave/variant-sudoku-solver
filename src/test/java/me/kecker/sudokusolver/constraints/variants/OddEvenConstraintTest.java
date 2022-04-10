@@ -1,7 +1,7 @@
 package me.kecker.sudokusolver.constraints.variants;
 
 import com.google.ortools.sat.CpSolverStatus;
-import me.kecker.sudokusolver.SudokuSolveSolution;
+import me.kecker.sudokusolver.result.Solution;
 import me.kecker.sudokusolver.SudokuSolver;
 import org.junit.jupiter.api.Test;
 
@@ -42,7 +42,7 @@ public class OddEvenConstraintTest {
 
         };
 
-        SudokuSolveSolution solve = SudokuSolver.normalSudokuRulesApply()
+        Solution solve = SudokuSolver.normalSudokuRulesApply()
                 .withGivenDigitsFromIntArray(board)
                 .withEvenOddConstraintsFromCharArray(evenOdd)
                 .solve();

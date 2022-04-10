@@ -1,7 +1,7 @@
 package me.kecker.sudokusolver.constraints.variants;
 
 import com.google.ortools.sat.CpSolverStatus;
-import me.kecker.sudokusolver.SudokuSolveSolution;
+import me.kecker.sudokusolver.result.Solution;
 import me.kecker.sudokusolver.SudokuSolver;
 import org.junit.jupiter.api.Test;
 
@@ -27,7 +27,7 @@ class NonconsecutiveConstraintTest {
                 {0, 0, 7, 0, 9, 0, 8, 0, 0},
                 {3, 0, 0, 0, 0, 0, 0, 0, 7},
         };
-        SudokuSolveSolution solve = SudokuSolver.normalSudokuRulesApply()
+        Solution solve = SudokuSolver.normalSudokuRulesApply()
                 .withConstraint(new NonconsecutiveConstraint())
                 .withGivenDigitsFromIntArray(board)
                 .peek(SudokuSolver::printBoard)
@@ -55,7 +55,7 @@ class NonconsecutiveConstraintTest {
     @Test
     void testMiracleSudoku() {
 
-        SudokuSolveSolution solve = SudokuSolver.normalSudokuRulesApply()
+        Solution solve = SudokuSolver.normalSudokuRulesApply()
                 .withConstraint(new NonconsecutiveConstraint())
                 .withConstraint(new KingSudokuConstraint())
                 .withConstraint(new KnightSudokuConstraint())
