@@ -1,7 +1,7 @@
 package me.kecker.sudokusolver;
 
 import com.google.ortools.sat.CpSolverStatus;
-import me.kecker.sudokusolver.result.Solution;
+import me.kecker.sudokusolver.result.SolutionSet;
 import org.junit.jupiter.api.Test;
 
 import static me.kecker.sudokusolver.test.SolvedAssertion.assertSolved;
@@ -14,7 +14,7 @@ class SudokuSolverTest {
      */
     @Test
     void testNormalSudokuRules() {
-        Solution solve = SudokuSolver.normalSudokuRulesApply()
+        SolutionSet solve = SudokuSolver.normalSudokuRulesApply()
                 .withGivenDigit(1, 4, 8)
                 .withGivenDigit(1, 6, 1)
                 .withGivenDigit(2, 8, 4)
@@ -65,7 +65,7 @@ class SudokuSolverTest {
                 {0, 5, 4, 0, 0, 0, 9, 1, 0},
                 {0, 0, 7, 5, 0, 3, 2, 0, 0},
         };
-        Solution solve = SudokuSolver.normalSudokuRulesApply()
+        SolutionSet solve = SudokuSolver.normalSudokuRulesApply()
                 .withGivenDigitsFromIntArray(initialState)
                 .peek(SudokuSolver::printBoard)
                 .solve();
@@ -103,7 +103,7 @@ class SudokuSolverTest {
                 {null, null,    7,    5, null,    3,    2, null, null},
 //@formatter:off
         };
-        Solution solve = SudokuSolver.normalSudokuRulesApply()
+        SolutionSet solve = SudokuSolver.normalSudokuRulesApply()
                 .withGivenDigitsFromIntegerArray(initialState)
                 .peek(SudokuSolver::printBoard)
                 .solve();
@@ -139,7 +139,7 @@ class SudokuSolverTest {
                 {'?', '5', '4', '?', '?', '?', '9', '1', '?'},
                 {'?', '?', '7', '5', '?', '3', '2', '?', '?'},
         };
-        Solution solve = SudokuSolver.normalSudokuRulesApply()
+        SolutionSet solve = SudokuSolver.normalSudokuRulesApply()
                 .withGivenDigitsFromCharArray(initialState)
                 .peek(SudokuSolver::printBoard)
                 .solve();

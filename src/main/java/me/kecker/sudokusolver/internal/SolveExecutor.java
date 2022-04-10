@@ -7,13 +7,13 @@ import com.google.ortools.sat.CpSolverStatus;
 import me.kecker.sudokusolver.Board;
 import me.kecker.sudokusolver.BoardVariables;
 import me.kecker.sudokusolver.constraints.SudokuConstraint;
-import me.kecker.sudokusolver.result.Solution;
+import me.kecker.sudokusolver.result.SolutionSet;
 
 import java.util.Collection;
 
 public class SolveExecutor {
 
-    public Solution solve(Board board, Collection<SudokuConstraint> constraints) {
+    public SolutionSet solve(Board board, Collection<SudokuConstraint> constraints) {
         // won't do anything when executed a second time
         Loader.loadNativeLibraries();
 
@@ -29,7 +29,7 @@ public class SolveExecutor {
         solver.getParameters().setEnumerateAllSolutions(true);
         CpSolverStatus status = solver.solve(model, solutionCatcher);
 
-        return new Solution(variables, solver, status, solutionCatcher.getSolutions());
+        return new SolutionSet(variables, solver, status, solutionCatcher.getSolutions());
     }
 
 }

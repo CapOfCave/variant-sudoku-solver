@@ -6,7 +6,7 @@ import me.kecker.sudokusolver.SudokuSolver;
 import me.kecker.sudokusolver.constraints.normal.RowsUniqueConstraint;
 import me.kecker.sudokusolver.dtos.Position;
 import me.kecker.sudokusolver.dtos.Rect;
-import me.kecker.sudokusolver.result.Solution;
+import me.kecker.sudokusolver.result.SolutionSet;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -20,7 +20,7 @@ class SandwichConstraintTest {
 
     @Test
     void testOneSimpleRowSandwich() {
-        Solution solve = SudokuSolver.fromBoard(new Board(4, 1, 1, 1, 1, 4))
+        SolutionSet solve = SudokuSolver.fromBoard(new Board(4, 1, 1, 1, 1, 4))
                 .withConstraint(new RowsUniqueConstraint())
                 .withConstraint(new SandwichConstraint(SandwichConstraint.SandwichDirection.ROW, 0, 1, 4, 2))
                 .withGivenDigit(1, 2, 1)
@@ -49,7 +49,7 @@ class SandwichConstraintTest {
                 .mapToObj(columnIdx -> SandwichConstraint.forColumn(columnIdx + 1, columnsSandwichClues[columnIdx]))
                 .toList();
 
-        Solution solve = SudokuSolver.normalSudokuRulesApply()
+        SolutionSet solve = SudokuSolver.normalSudokuRulesApply()
                 .withConstraints(rowConstraints)
                 .withConstraints(columnConstraints)
                 .withGivenDigit(1, 9, 1)
@@ -88,7 +88,7 @@ class SandwichConstraintTest {
                 .mapToObj(columnIdx -> new SandwichConstraint(SandwichConstraint.SandwichDirection.COLUMN, columnIdx, 4, 6, columnsSandwichClues[columnIdx]))
                 .toList();
 
-        Solution solve = SudokuSolver.normalSudokuRulesApply()
+        SolutionSet solve = SudokuSolver.normalSudokuRulesApply()
                 .withConstraints(rowConstraints)
                 .withConstraints(columnConstraints)
                 .withGivenDigit(8, 4, 1)
@@ -122,7 +122,7 @@ class SandwichConstraintTest {
                 new Position(5, 7)
         )), 15);
 
-        Solution solve = SudokuSolver.normalSudokuRulesApply()
+        SolutionSet solve = SudokuSolver.normalSudokuRulesApply()
                 .withConstraint(SandwichConstraint.forRow(1, 0))
                 .withConstraint(SandwichConstraint.forRow(4, 8))
                 .withConstraint(SandwichConstraint.forRow(5, 17))

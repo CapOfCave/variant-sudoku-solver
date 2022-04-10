@@ -1,7 +1,5 @@
 package me.kecker.sudokusolver.constraints.variants;
 
-import com.google.ortools.sat.CpSolverStatus;
-import me.kecker.sudokusolver.result.SingleSolution;
 import me.kecker.sudokusolver.result.Solution;
 import me.kecker.sudokusolver.SudokuSolver;
 import me.kecker.sudokusolver.dtos.Position;
@@ -12,7 +10,6 @@ import java.util.List;
 
 import static me.kecker.sudokusolver.test.SolvedAssertion.assertSolved;
 import static me.kecker.sudokusolver.utils.SudokuCollectionUtils.startingAtOne;
-import static org.junit.jupiter.api.Assertions.*;
 
 class KillerConstraintTest {
 
@@ -28,7 +25,7 @@ class KillerConstraintTest {
                 new Position(4, 7),
                 new Position(4, 6)
         )), 23);
-        SingleSolution solve = SudokuSolver.normalSudokuRulesApply()
+        Solution solve = SudokuSolver.normalSudokuRulesApply()
                 .withConstraint(KillerConstraint.rectangularCage(new Rect(1, 1, 1, 2), 14))
                 .withConstraint(KillerConstraint.rectangularCage(new Rect(1, 3, 1, 4), 14))
                 .withConstraint(KillerConstraint.rectangularCage(new Rect(2, 1, 5, 1), 28))

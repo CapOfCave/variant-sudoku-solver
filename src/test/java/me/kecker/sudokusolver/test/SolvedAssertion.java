@@ -1,13 +1,13 @@
 package me.kecker.sudokusolver.test;
 
-import me.kecker.sudokusolver.result.SingleSolution;
 import me.kecker.sudokusolver.result.Solution;
+import me.kecker.sudokusolver.result.SolutionSet;
 import org.assertj.core.api.SoftAssertions;
 
 public class SolvedAssertion {
 
     @Deprecated
-    public static void assertSolved(Solution solve, int[][] solution) {
+    public static void assertSolved(SolutionSet solve, int[][] solution) {
         SoftAssertions softAssertions = new SoftAssertions();
         for (int rowIdx = 0; rowIdx < solution.length; rowIdx++){
             for (int columnIdx = 0; columnIdx < solution[rowIdx].length; columnIdx++){
@@ -19,7 +19,7 @@ public class SolvedAssertion {
         softAssertions.assertAll();
     }
 
-    public static void assertSolved(SingleSolution solve, int[][] solution) {
+    public static void assertSolved(Solution solve, int[][] solution) {
         SoftAssertions softAssertions = new SoftAssertions();
         for (int rowIdx = 0; rowIdx < solution.length; rowIdx++){
             for (int columnIdx = 0; columnIdx < solution[rowIdx].length; columnIdx++){

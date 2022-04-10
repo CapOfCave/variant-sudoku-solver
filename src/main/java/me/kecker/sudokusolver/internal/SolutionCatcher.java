@@ -4,7 +4,7 @@ import com.google.ortools.sat.CpSolverSolutionCallback;
 import com.google.ortools.sat.IntVar;
 import me.kecker.sudokusolver.Board;
 import me.kecker.sudokusolver.BoardVariables;
-import me.kecker.sudokusolver.result.SingleSolution;
+import me.kecker.sudokusolver.result.Solution;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ public class SolutionCatcher extends CpSolverSolutionCallback {
     private final BoardVariables variables;
     private final int solutionLimit;
 
-    private final List<SingleSolution> solutions;
+    private final List<Solution> solutions;
     private final Board board;
 
     public SolutionCatcher(BoardVariables variables, int solutionLimit, Board board) {
@@ -30,7 +30,7 @@ public class SolutionCatcher extends CpSolverSolutionCallback {
         variables.forEach((int rowIdx, int columnIdx, IntVar variable) -> {
             values[rowIdx][columnIdx] = (int) value(variable);
         });
-        solutions.add(new SingleSolution(board, values));
+        solutions.add(new Solution(board, values));
 
         if (solutions.size() >= solutionLimit) {
             System.out.printf("Stop search after %d solutions%n", solutionLimit);
@@ -38,7 +38,7 @@ public class SolutionCatcher extends CpSolverSolutionCallback {
         }
     }
 
-    public List<SingleSolution> getSolutions() {
+    public List<Solution> getSolutions() {
         return solutions;
     }
 }

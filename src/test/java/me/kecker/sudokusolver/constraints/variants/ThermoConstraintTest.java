@@ -1,7 +1,7 @@
 package me.kecker.sudokusolver.constraints.variants;
 
 import com.google.ortools.sat.CpSolverStatus;
-import me.kecker.sudokusolver.result.Solution;
+import me.kecker.sudokusolver.result.SolutionSet;
 import me.kecker.sudokusolver.SudokuSolver;
 import me.kecker.sudokusolver.utils.SudokuCollectionUtils;
 import me.kecker.sudokusolver.dtos.Position;
@@ -91,7 +91,7 @@ class ThermoConstraintTest {
                         new Position(9, 5)
                 )
         );
-        Solution solve = SudokuSolver.normalSudokuRulesApply()
+        SolutionSet solve = SudokuSolver.normalSudokuRulesApply()
                 .withConstraints(thermos.stream().map(SudokuCollectionUtils::startingAtOne).map(ThermoConstraint::new).toList())
                 .peek(SudokuSolver::printThermos)
                 .solve();

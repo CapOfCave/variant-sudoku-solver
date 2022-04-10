@@ -2,7 +2,7 @@ package me.kecker.sudokusolver.constraints.variants;
 
 import com.google.ortools.sat.CpSolverStatus;
 import me.kecker.sudokusolver.Board;
-import me.kecker.sudokusolver.result.Solution;
+import me.kecker.sudokusolver.result.SolutionSet;
 import me.kecker.sudokusolver.SudokuSolver;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +25,7 @@ class DisjointGroupsConstraintsTest {
                 {0, 0, 5, 0, 6, 0},
                 {6, 0, 0, 0, 0, 1}
         };
-        Solution solve = SudokuSolver.fromBoard(new Board(3, 2, 2, 3, 1, 6))
+        SolutionSet solve = SudokuSolver.fromBoard(new Board(3, 2, 2, 3, 1, 6))
                 .withNormalSudokuRulesConstraints()
                 .withGivenDigitsFromIntArray(board)
                 .withConstraint(new DisjointGroupsConstraints())
@@ -62,7 +62,7 @@ class DisjointGroupsConstraintsTest {
                 {0, 4, 0, 0, 8, 0, 0, 7, 0},
                 {9, 0, 6, 0, 4, 0, 0, 0, 3},
         };
-        Solution solve = SudokuSolver.normalSudokuRulesApply()
+        SolutionSet solve = SudokuSolver.normalSudokuRulesApply()
                 .withGivenDigitsFromIntArray(board)
                 .withConstraint(new DisjointGroupsConstraints())
                 .peek(SudokuSolver::printBoard)

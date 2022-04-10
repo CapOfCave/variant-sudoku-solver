@@ -1,10 +1,6 @@
 package me.kecker.sudokusolver;
 
 
-import com.google.ortools.Loader;
-import com.google.ortools.sat.CpModel;
-import com.google.ortools.sat.CpSolver;
-import com.google.ortools.sat.CpSolverStatus;
 import me.kecker.sudokusolver.constraints.SudokuConstraint;
 import me.kecker.sudokusolver.constraints.normal.BoxesUniqueConstraint;
 import me.kecker.sudokusolver.constraints.normal.ColumnsUniqueConstraint;
@@ -18,8 +14,7 @@ import me.kecker.sudokusolver.constraints.variants.OddConstraint;
 import me.kecker.sudokusolver.constraints.variants.SingleDiagonalConstraint;
 import me.kecker.sudokusolver.constraints.variants.ThermoConstraint;
 import me.kecker.sudokusolver.internal.SolveExecutor;
-import me.kecker.sudokusolver.result.Solution;
-import me.kecker.sudokusolver.utils.DebugVarsHelper;
+import me.kecker.sudokusolver.result.SolutionSet;
 import me.kecker.sudokusolver.dtos.Position;
 import me.kecker.sudokusolver.utils.SudokuSolverUtils;
 
@@ -126,7 +121,7 @@ public class SudokuSolver {
         return withConstraint(new LittleKillerConstraint(new Position(rowIdxStartingAt1 - 1, columnIdxStartingAt1 - 1), direction, sum));
     }
 
-    public Solution solve() {
+    public SolutionSet solve() {
         SolveExecutor solveExecutor = new SolveExecutor();
         return solveExecutor.solve(this.board, this.constraints);
     }

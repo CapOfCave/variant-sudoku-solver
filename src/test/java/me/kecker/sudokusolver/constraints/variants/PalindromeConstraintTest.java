@@ -1,7 +1,7 @@
 package me.kecker.sudokusolver.constraints.variants;
 
 import com.google.ortools.sat.CpSolverStatus;
-import me.kecker.sudokusolver.result.Solution;
+import me.kecker.sudokusolver.result.SolutionSet;
 import me.kecker.sudokusolver.SudokuSolver;
 import me.kecker.sudokusolver.utils.SudokuCollectionUtils;
 import me.kecker.sudokusolver.dtos.Position;
@@ -68,7 +68,7 @@ class PalindromeConstraintTest {
                 {0, 6, 0, 0, 0, 8, 0, 0, 0},
                 {3, 0, 0, 0, 2, 0, 0, 0, 6},
         };
-        Solution solve = SudokuSolver.normalSudokuRulesApply()
+        SolutionSet solve = SudokuSolver.normalSudokuRulesApply()
                 .withConstraints(palindromes.stream().map(SudokuCollectionUtils::startingAtOne).map(PalindromeConstraint::new).toList())
                 .withGivenDigitsFromIntArray(board)
                 .peek(SudokuSolver::printBoard)

@@ -1,7 +1,7 @@
 package me.kecker.sudokusolver.constraints.variants;
 
 import com.google.ortools.sat.CpSolverStatus;
-import me.kecker.sudokusolver.result.Solution;
+import me.kecker.sudokusolver.result.SolutionSet;
 import me.kecker.sudokusolver.SudokuSolver;
 import me.kecker.sudokusolver.dtos.Offset;
 import me.kecker.sudokusolver.dtos.Position;
@@ -32,7 +32,7 @@ class CloneConstraintTest {
                 {4, 0, 1, 0, 0, 0, 0, 0, 0},
                 {0, 3, 0, 0, 4, 0, 0, 0, 0},
         };
-        Solution solve = SudokuSolver.normalSudokuRulesApply()
+        SolutionSet solve = SudokuSolver.normalSudokuRulesApply()
                 .withGivenDigitsFromIntArray(board)
                 .withConstraint(new CloneConstraint(startingAtOne(List.of(
                         new Position(1, 1),

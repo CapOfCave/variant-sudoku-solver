@@ -1,7 +1,7 @@
 package me.kecker.sudokusolver.constraints.variants;
 
 import com.google.ortools.sat.CpSolverStatus;
-import me.kecker.sudokusolver.result.Solution;
+import me.kecker.sudokusolver.result.SolutionSet;
 import me.kecker.sudokusolver.SudokuSolver;
 import me.kecker.sudokusolver.dtos.Position;
 import org.junit.jupiter.api.Test;
@@ -79,7 +79,7 @@ class ArrowConstraintTest {
                 .map(arrow -> new ArrowConstraint(startingAtOne(arrow.bulb()), startingAtOne(arrow.shaft())))
                 .toList();
 
-        Solution solve = SudokuSolver.normalSudokuRulesApply()
+        SolutionSet solve = SudokuSolver.normalSudokuRulesApply()
                 .withGivenDigitsFromIntArray(board)
                 .withConstraints(arrowConstraints)
                 .peek(SudokuSolver::printBoard)
