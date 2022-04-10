@@ -17,6 +17,7 @@ import me.kecker.sudokusolver.constraints.variants.LittleKillerConstraint;
 import me.kecker.sudokusolver.constraints.variants.OddConstraint;
 import me.kecker.sudokusolver.constraints.variants.SingleDiagonalConstraint;
 import me.kecker.sudokusolver.constraints.variants.ThermoConstraint;
+import me.kecker.sudokusolver.internal.SolveExecutor;
 import me.kecker.sudokusolver.result.Solution;
 import me.kecker.sudokusolver.utils.DebugVarsHelper;
 import me.kecker.sudokusolver.dtos.Position;
@@ -31,7 +32,6 @@ public class SudokuSolver {
 
     private final Board board;
     private final Collection<SudokuConstraint> constraints = new ArrayList<>();
-
 
     public SudokuSolver(Board board) {
         this.board = board;
@@ -127,20 +127,8 @@ public class SudokuSolver {
     }
 
     public Solution solve() {
-        // won't do anything when executed a second time
-        Loader.loadNativeLibraries();
-
-        CpModel model = new CpModel();
-        BoardVariables variables = this.board.createVariables(model);
-        this.constraints.forEach(constraints -> constraints.apply(model, variables));
-
-        CpSolver solver = new CpSolver();
-
-        SolutionPrinter cb = new SolutionPrinter(variables, DebugVarsHelper.get());
-        solver.getParameters().setEnumerateAllSolutions(true);
-        CpSolverStatus status = solver.solve(model, cb);
-
-        return new Solution(variables, solver, status);
+        SolveExecutor solveExecutor = new SolveExecutor();
+        return solveExecutor.solve(this.board, this.constraints);
     }
 
     public void printBoard() {
