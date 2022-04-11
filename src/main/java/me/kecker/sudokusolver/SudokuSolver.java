@@ -2,6 +2,7 @@ package me.kecker.sudokusolver;
 
 
 import me.kecker.sudokusolver.constraints.SudokuConstraint;
+import me.kecker.sudokusolver.constraints.base.AdjacentSumConstraint;
 import me.kecker.sudokusolver.constraints.normal.BoxesUniqueConstraint;
 import me.kecker.sudokusolver.constraints.normal.ColumnsUniqueConstraint;
 import me.kecker.sudokusolver.constraints.normal.GivenDigit;
@@ -13,6 +14,8 @@ import me.kecker.sudokusolver.constraints.variants.LittleKillerConstraint;
 import me.kecker.sudokusolver.constraints.variants.OddConstraint;
 import me.kecker.sudokusolver.constraints.variants.SingleDiagonalConstraint;
 import me.kecker.sudokusolver.constraints.variants.ThermoConstraint;
+import me.kecker.sudokusolver.constraints.variants.VSumConstraint;
+import me.kecker.sudokusolver.constraints.variants.XSumConstraint;
 import me.kecker.sudokusolver.internal.SolveExecutor;
 import me.kecker.sudokusolver.result.SolutionSet;
 import me.kecker.sudokusolver.dtos.Position;
@@ -22,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 public class SudokuSolver {
 
@@ -61,6 +65,11 @@ public class SudokuSolver {
         int rowIdx = rowIdxStartingAtOne - 1;
         int columnIdx = columnIdxStartingAtOne - 1;
         var givenDigit = new GivenDigit(rowIdx, columnIdx, value);
+        return this.withConstraint(givenDigit);
+    }
+
+    public SudokuSolver withGivenDigit(Position position, int value) {
+        var givenDigit = new GivenDigit(position.rowIdx(), position.columnIdx(), value);
         return this.withConstraint(givenDigit);
     }
 
@@ -213,4 +222,22 @@ public class SudokuSolver {
     }
 
 
+    public void printXVs() {
+        List<AdjacentSumConstraint> xvConstraints = constraints.stream()
+                .filter(sudokuConstraint -> sudokuConstraint instanceof XSumConstraint || sudokuConstraint instanceof VSumConstraint)
+                .map(sudokuConstraint -> (AdjacentSumConstraint) sudokuConstraint)
+                .toList();
+
+        // efficient enough (for now)
+        SudokuSolverUtils.ValueSupplier valuesByPosition = (int rowIdx, int columnIdx) ->
+                xvConstraints.stream()
+                        .flatMap(xvConstraint -> Stream.of(xvConstraint.getPosition1(), xvConstraint.getPosition2()))
+                        .filter(position -> position.rowIdx() == rowIdx && position.columnIdx() == columnIdx)
+                        .map(x -> "X")
+                        .findFirst()
+                        .orElse(".");
+
+        SudokuSolverUtils.printBoard(valuesByPosition, board);
+
+    }
 }

@@ -21,10 +21,12 @@ This library aims toward being able to solve all somewhat popular Sudoku variant
 - [x] Thermo Sudoku
 - [x] Odd-/Even-Sudoku
 - [x] Arrow Sudoku
+- [x] XV Sudoku
 - [x] Palindrome Sudoku
 - [x] Disjoint Groups Sudoku
 - [x] Nonconsecutive Sudoku
 - [x] Clone Sudoku
+
 
 ### Coming Soon (-ish):
 
@@ -34,10 +36,7 @@ This library aims toward being able to solve all somewhat popular Sudoku variant
   - [ ] Difference/Ratio Sudoku with Negative Constraint
 - [ ] Between Line Sudoku
 - [ ] Minimum/Maximum Sudoku
-- [ ] XV-Sudoku
-  - [ ] X-Sudoku
-  - [ ] V-Sudoku
-  - [ ] XV-Sudoku with Negative Constraint
+- [ ] Negative Constraints for XV Sudoku and Difference/Ratio Sudoku
 - [ ] Quadruple Sudoku
 - [ ] Renban Lines/Groups
 - [ ] German Whisper Lines (incl. variations like Dutch Whispers)

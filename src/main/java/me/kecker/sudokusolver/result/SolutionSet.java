@@ -28,4 +28,18 @@ public class SolutionSet {
         }
         return solutions.get(0);
     }
+
+    public Solution first() {
+        if (!wasSuccessful()) {
+            throw new SolutionException(String.format("Could not find a solution in time, the status is %s.", status));
+        }
+        return solutions.get(0);
+    }
+
+    public List<Solution> getAll() {
+        if (!wasSuccessful()) {
+            throw new SolutionException(String.format("Could not find a solution in time, the status is %s.", status));
+        }
+        return solutions;
+    }
 }
