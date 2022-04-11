@@ -18,4 +18,5 @@ public class SudokuCollectionUtils {
     public static Position rc(int rowStartingAtOne, int columnStartingAtOne) {
         return new Position(rowStartingAtOne - 1, columnStartingAtOne - 1 );
     }
+
 }

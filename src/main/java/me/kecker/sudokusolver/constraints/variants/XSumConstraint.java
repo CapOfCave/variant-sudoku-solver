@@ -1,11 +1,11 @@
 package me.kecker.sudokusolver.constraints.variants;
 
-import me.kecker.sudokusolver.constraints.base.AdjacentSumConstraint;
-import me.kecker.sudokusolver.dtos.Position;
+import me.kecker.sudokusolver.constraints.base.AdjacentPairSumConstraint;
+import me.kecker.sudokusolver.dtos.Pair;
 
-public class XSumConstraint extends AdjacentSumConstraint {
+public class XSumConstraint extends AdjacentPairSumConstraint {
 
-    public XSumConstraint(Position position1, Position position2) {
-        super(10, position1, position2);
+    public XSumConstraint(Pair affectedCells) {
+        super(10, affectedCells);
     }
 }
