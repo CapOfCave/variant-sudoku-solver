@@ -1,6 +1,8 @@
 package me.kecker.sudokusolver;
 
 
+import me.kecker.sudokusolver.constraints.AdjacentPairConstraint;
+import me.kecker.sudokusolver.constraints.NegativeConstraint;
 import me.kecker.sudokusolver.constraints.SudokuConstraint;
 import me.kecker.sudokusolver.constraints.base.AdjacentPairSumConstraint;
 import me.kecker.sudokusolver.constraints.normal.BoxesUniqueConstraint;
@@ -17,19 +19,30 @@ import me.kecker.sudokusolver.constraints.variants.ThermoConstraint;
 import me.kecker.sudokusolver.constraints.variants.VSumConstraint;
 import me.kecker.sudokusolver.constraints.variants.XSumConstraint;
 import me.kecker.sudokusolver.dtos.Position;
+import me.kecker.sudokusolver.exceptions.InvalidConstraintException;
 import me.kecker.sudokusolver.internal.SolveExecutor;
 import me.kecker.sudokusolver.result.SolutionSet;
 import me.kecker.sudokusolver.utils.SudokuSolverUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class SudokuSolver {
 
     private final Board board;
     private final Collection<SudokuConstraint> constraints = new ArrayList<>();
+
+    /**
+     * Negative constraints are **also** stored separately, so that finding them when new exceptions are added is easier
+     * <p>
+     * Negative constraints are implicit singletons, so the Mapping Class -> instance is 1 -> 0..1
+     */
+    private final Map<Class<?>, NegativeConstraint> negativeConstraints = new HashMap<>();
+
 
     public SudokuSolver(Board board) {
         this.board = board;
@@ -44,13 +57,42 @@ public class SudokuSolver {
         return new SudokuSolver(board);
     }
 
-    public SudokuSolver withConstraints(Collection<? extends SudokuConstraint> constraints) {
-        this.constraints.addAll(constraints);
+
+    public SudokuSolver withConstraint(SudokuConstraint constraint) {
+        if (constraint instanceof NegativeConstraint negativeConstraint) {
+            registerNewNegativeConstraint(negativeConstraint);
+        }
+        if (constraint instanceof AdjacentPairConstraint adjacentPairConstraint) {
+            registerAdjacentPairConstraint(adjacentPairConstraint);
+        }
+        this.constraints.add(constraint);
         return this;
     }
 
-    public SudokuSolver withConstraint(SudokuConstraint constraint) {
-        this.constraints.add(constraint);
+    private void registerAdjacentPairConstraint(AdjacentPairConstraint adjacentPairConstraint) {
+        this.negativeConstraints.values().forEach(negativeConstraint -> {
+            if (adjacentPairConstraint.getAffectedNegativeConstraints().contains(negativeConstraint.getClass())) {
+                negativeConstraint.addException(adjacentPairConstraint.getAffectedCells());
+            }
+        });
+    }
+
+    private void registerNewNegativeConstraint(NegativeConstraint negativeConstraint) {
+        if (negativeConstraints.containsKey(negativeConstraint.getClass())) {
+            throw new InvalidConstraintException("Negative constraint " + negativeConstraint.getClass() + " cannot be added again as it was already added before.");
+        }
+        this.constraints.forEach(constraint -> {
+            if (constraint instanceof AdjacentPairConstraint adjacentPairConstraint
+                    && adjacentPairConstraint.getAffectedNegativeConstraints().contains(negativeConstraint.getClass())) {
+                negativeConstraint.addException(adjacentPairConstraint.getAffectedCells());
+            }
+        });
+        negativeConstraints.put(negativeConstraint.getClass(), negativeConstraint);
+
+    }
+
+    public SudokuSolver withConstraints(Collection<? extends SudokuConstraint> constraints) {
+        constraints.forEach(this::withConstraint);
         return this;
     }
 
