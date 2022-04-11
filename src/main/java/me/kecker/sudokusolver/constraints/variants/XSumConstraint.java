@@ -6,7 +6,7 @@ import me.kecker.sudokusolver.constraints.negative.NegativeXVSumsConstraint;
 import me.kecker.sudokusolver.dtos.Pair;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.Collections;
 
 public class XSumConstraint extends AdjacentPairSumConstraint {
 
@@ -16,6 +16,6 @@ public class XSumConstraint extends AdjacentPairSumConstraint {
 
     @Override
     public Collection<Class<? extends NegativeConstraint>> getAffectedNegativeConstraints() {
-        return List.of(NegativeXVSumsConstraint.class);
+        return Collections.singleton(NegativeXVSumsConstraint.class);
     }
 }

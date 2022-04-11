@@ -14,6 +14,7 @@ import me.kecker.sudokusolver.constraints.variants.EvenConstraint;
 import me.kecker.sudokusolver.constraints.variants.KillerConstraint;
 import me.kecker.sudokusolver.constraints.variants.LittleKillerConstraint;
 import me.kecker.sudokusolver.constraints.variants.OddConstraint;
+import me.kecker.sudokusolver.constraints.variants.RatioConstraint;
 import me.kecker.sudokusolver.constraints.variants.SingleDiagonalConstraint;
 import me.kecker.sudokusolver.constraints.variants.ThermoConstraint;
 import me.kecker.sudokusolver.constraints.variants.VSumConstraint;
@@ -280,5 +281,23 @@ public class SudokuSolver {
 
         SudokuSolverUtils.printBoard(valuesByPosition, board);
 
+    }
+
+    public void printRatios() {
+        List<RatioConstraint> xvConstraints = constraints.stream()
+                .filter(sudokuConstraint -> sudokuConstraint instanceof RatioConstraint)
+                .map(sudokuConstraint -> (RatioConstraint) sudokuConstraint)
+                .toList();
+
+        // efficient enough (for now)
+        SudokuSolverUtils.ValueSupplier valuesByPosition = (int rowIdx, int columnIdx) ->
+                xvConstraints.stream()
+                        .flatMap(xvConstraint -> xvConstraint.getAffectedCells().stream())
+                        .filter(position -> position.rowIdx() == rowIdx && position.columnIdx() == columnIdx)
+                        .map(x -> "X")
+                        .findFirst()
+                        .orElse(".");
+
+        SudokuSolverUtils.printBoard(valuesByPosition, board);
     }
 }
