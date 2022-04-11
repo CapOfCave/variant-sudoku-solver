@@ -48,13 +48,15 @@ This library offers a fluent API for defining a sudoku ruleset. It offers shortc
 The constraints can be configured as follows (Shown with "The Miracle" by Mitchell Lee):
 
 ```java
-SudokuSolveSolution solve = SudokuSolver.normalSudokuRulesApply()
+SudokuSolver.normalSudokuRulesApply()
     .withConstraint(new NonconsecutiveConstraint())
     .withConstraint(new KingSudokuConstraint())
     .withConstraint(new KnightSudokuConstraint())
     .withGivenDigit(5, 3, 1) // digit '1' at r5c3
     .withGivenDigit(6, 7, 2) // digit '2' at r6c7
-    .solve();
+    .solve()
+    .withExactlyOneSolution()
+    .printBoard();
 ```
 
 For Sudokus with more given digits, the board can be provided with a useful shortcut (Shown with "Disjoint Groups Sudoku" by Rajesh Kumar):
@@ -71,10 +73,12 @@ int[][] board = {
     {0, 4, 0, 0, 8, 0, 0, 7, 0},
     {9, 0, 6, 0, 4, 0, 0, 0, 3},
 };
-SudokuSolveSolution solve = SudokuSolver.normalSudokuRulesApply()
-    .withGivenDigitsFromIntArray(board)
-    .withConstraint(new DisjointGroupsConstraints())
-    .solve();
+SudokuSolver.normalSudokuRulesApply()
+        .withGivenDigitsFromIntArray(board)
+        .withConstraint(new DisjointGroupsConstraints())
+        .solve()
+        .withExactlyOneSolution()
+        .printBoard();
 ```
 
 Examples for all implemented constraints can be found in [the test cases](src/test/java/me/kecker/sudokusolver/constraints/variants).
