@@ -26,14 +26,13 @@ This library aims toward being able to solve all somewhat popular Sudoku variant
 - [x] Disjoint Groups Sudoku
 - [x] Nonconsecutive Sudoku
 - [x] Clone Sudoku
+- [x] Ratio Sudoku
 
 
 ### Coming Soon (-ish):
 
-- [ ] Difference/Ratio Sudoku
-  - [ ] Difference Sudoku
-  - [ ] Ratio Sudoku 
-  - [ ] Difference/Ratio Sudoku with Negative Constraint
+- [ ] Difference Sudoku
+- [ ] Difference/Ratio Sudoku with Negative Constraint
 - [ ] Between Line Sudoku
 - [ ] Minimum/Maximum Sudoku
 - [ ] Quadruple Sudoku
