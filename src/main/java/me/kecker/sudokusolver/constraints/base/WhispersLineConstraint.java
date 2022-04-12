@@ -9,12 +9,12 @@ import me.kecker.sudokusolver.dtos.Position;
 
 import java.util.List;
 
-public class WhispersLine implements SudokuConstraint {
+public class WhispersLineConstraint implements SudokuConstraint {
 
     private final int minDifference;
     private final List<Position> line;
 
-    public WhispersLine(int minDifference, List<Position> line) {
+    public WhispersLineConstraint(int minDifference, List<Position> line) {
         this.minDifference = minDifference;
         this.line = line;
     }
