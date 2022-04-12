@@ -5,7 +5,7 @@ import me.kecker.sudokusolver.dtos.Pair;
 
 public class ConsecutiveConstraint extends FixedDifferenceConstraint {
 
-    protected ConsecutiveConstraint(Pair affectedCells) {
+    public ConsecutiveConstraint(Pair affectedCells) {
         super(1, affectedCells);
     }
 
