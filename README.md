@@ -28,12 +28,12 @@ This library aims toward being able to solve all somewhat popular Sudoku variant
 - [x] Nonconsecutive Sudoku
 - [x] Renban Lines/Groups
 - [x] Clone Sudoku
+- [x] Difference Sudoku
 - [x] Ratio Sudoku
 
 
 ### Coming Soon (-ish):
 
-- [ ] Difference Sudoku
 - [ ] Difference/Ratio Sudoku with Negative Constraint
 - [ ] Between Line Sudoku
 - [ ] Minimum/Maximum Sudoku
